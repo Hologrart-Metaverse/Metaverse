@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
+        // SPRINTING
         if (Input.GetKey(KeyCode.LeftShift)) // If the player presses the left shift key
         {
             speed = 5f;
