@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
+using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
-using UnityEngine.SceneManagement;
+
 
 public class NetworkRunnerHandler : MonoBehaviour
 {
@@ -14,30 +13,35 @@ public class NetworkRunnerHandler : MonoBehaviour
 
     private NetworkRunner networkRunner;
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        networkRunner = Instantiate(networkRunnerPrefab);
-        networkRunner.name = "Network runner";
+        networkRunner = Instantiate(networkRunnerPrefab.gameObject).GetComponent<NetworkRunner>();
+        networkRunner.name = "Network Runner";
 
         var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
-        Debug.Log("server started...");
+
+        Debug.Log($"Server NetworkRunner started.");
     }
-    protected virtual Task InitializeNetworkRunner(NetworkRunner runner, GameMode gameMode, NetAddress netAddress, SceneRef sceneRef,Action<NetworkRunner> initialized)
+
+    protected virtual Task InitializeNetworkRunner(NetworkRunner runner, GameMode gameMode, NetAddress address, SceneRef scene, Action<NetworkRunner> initialized)
     {
         var sceneManager = runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
-        if (sceneManager != null)
+
+        if (sceneManager == null)
         {
-            // Handle network objects that already exist in the scene
+            //Handle networked objects that already exits in the scene
             sceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
         }
+
         runner.ProvideInput = true;
 
         return runner.StartGame(new StartGameArgs
         {
             GameMode = gameMode,
-            Address = netAddress,
-            Scene = sceneRef,
-            SessionName = "GameRoom",
+            Address = address,
+            Scene = scene,
+            SessionName = "TestRoom",
             Initialized = initialized,
             SceneManager = sceneManager
         });

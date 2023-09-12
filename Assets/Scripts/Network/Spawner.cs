@@ -1,7 +1,6 @@
 using Fusion;
 using Fusion.Sockets;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,8 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     public NetworkPlayer playerPrefab;
 
     private CharacterInputHandler _characterInputHandler;
+
+    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     public void OnConnectedToServer(NetworkRunner runner)
     {
         Debug.Log("Connected to server.");
@@ -37,11 +38,11 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        if(_characterInputHandler == null && NetworkPlayer.Local != null)
+        if (_characterInputHandler == null && NetworkPlayer.Local != null)
         {
             _characterInputHandler = NetworkPlayer.Local.GetComponent<CharacterInputHandler>();
         }
-        if(_characterInputHandler != null)
+        if (_characterInputHandler != null)
         {
             input.Set(_characterInputHandler.GetNetworkInput());
         }
@@ -56,7 +57,9 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             Debug.Log("On player joined. We are server. Spawning player...");
-            runner.Spawn(playerPrefab, Utils.GetRandomPosition(), Quaternion.identity, player);
+            NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomPosition(), Quaternion.identity, player).GetComponent<NetworkObject>();
+            _spawnedCharacters.Add(player, networkPlayerObject);
+            PlayerManager.Instance.AddPlayer(networkPlayerObject.GetComponent<NetworkPlayer>());
         }
         else
             Debug.Log("OnPlayerJoined");
@@ -64,6 +67,10 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+        {
+            _spawnedCharacters.Remove(player);
+        }
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data)

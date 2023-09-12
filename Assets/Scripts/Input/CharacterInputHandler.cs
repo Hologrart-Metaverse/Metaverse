@@ -1,44 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterInputHandler : MonoBehaviour
 {
-    private Vector2 moveInputVector = Vector2.zero;
-    private Vector2 viewInputVector = Vector2.zero;
     private bool isJumpButtonPressed;
 
-    private CharacterMovementHandler _characterMovementHandler;
+    private LocalCameraHandler _localCameraHandler;
     private void Awake()
     {
-        _characterMovementHandler = GetComponent<CharacterMovementHandler>();
+        _localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
     }
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Utils.SetMouseLockedState(true);
     }
     private void Update()
     {
-        //View Input
-        viewInputVector.x = Input.GetAxis("Mouse X");
-        viewInputVector.y = Input.GetAxis("Mouse Y") * -1; //Invert the mouse look
-
-        _characterMovementHandler.SetViewInputVector(viewInputVector);
-        //Move Input
-        moveInputVector.x = Input.GetAxis("Horizontal");
-        moveInputVector.y = Input.GetAxis("Vertical");
-
         //Jump
-        isJumpButtonPressed = Input.GetButtonDown("Jump");
+        if (GameInput.Instance.IsJumpButtonPressed())
+            isJumpButtonPressed = true;
+
+        //Set view
+        _localCameraHandler.SetViewInputVector(GameInput.Instance.GetMouseLook());
     }
     public NetworkInputData GetNetworkInput()
     {
         NetworkInputData networkInputData = new NetworkInputData();
 
-        networkInputData.movementInput = moveInputVector;
-        networkInputData.rotationInput = viewInputVector.x;
-        networkInputData.isJumpPressed = isJumpButtonPressed;
+        if(EventSystem.current.currentSelectedGameObject == null)
+        {
+            networkInputData.movementInput = GameInput.Instance.GetMovementVectorNormalized();
+
+            networkInputData.aimForwardVector = _localCameraHandler.transform.forward;
+
+            networkInputData.isJumpPressed = isJumpButtonPressed;
+        }
+        else
+        {
+            networkInputData.movementInput = Vector2.zero;
+            networkInputData.aimForwardVector = Vector2.zero;
+        }
+        isJumpButtonPressed = false;
+
         return networkInputData;
     }
 }

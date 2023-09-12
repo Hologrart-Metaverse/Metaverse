@@ -15,7 +15,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     public float braking = 10.0f;
     public float maxSpeed = 2.0f;
     public float rotationSpeed = 15.0f;
-    public float viewUpAndDownRotationSpeed = 50.0f;
+    public float viewUpDownRotationSpeed = 50.0f;
 
     [Networked]
     [HideInInspector]
@@ -49,6 +49,9 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     {
         base.Spawned();
         CacheController();
+
+        // Caveat: this is needed to initialize the Controller's state and avoid unwanted spikes in its perceived velocity
+        Controller.Move(transform.position);
     }
 
     private void CacheController()
@@ -128,9 +131,9 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
         Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
         IsGrounded = Controller.isGrounded;
     }
+
     public void Rotate(float rotationY)
     {
-        Debug.Log(rotationY);
-        transform.Rotate(0, rotationY * rotationSpeed * Runner.DeltaTime, 0);
+        transform.Rotate(0, rotationY * Runner.DeltaTime * rotationSpeed, 0);
     }
 }
