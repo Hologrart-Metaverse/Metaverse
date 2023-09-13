@@ -67,9 +67,13 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+        if(runner.IsServer)
         {
-            _spawnedCharacters.Remove(player);
+            if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+            {
+                _spawnedCharacters.Remove(player);
+                PlayerManager.Instance.RemovePlayer(networkObject.GetComponent<NetworkPlayer>());
+            }
         }
     }
 

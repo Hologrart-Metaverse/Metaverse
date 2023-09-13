@@ -1,13 +1,25 @@
 using Fusion;
+using System;
 using UnityEngine;
 
 public class CharacterMovementHandler : NetworkBehaviour
 {
     private NetworkCharacterControllerPrototypeCustom _networkCharacterController;
+    private bool isMainCameraOn = false;
     private void Awake()
     {
         _networkCharacterController = GetComponent<NetworkCharacterControllerPrototypeCustom>();
     }
+    private void Start()
+    {
+        GameInput.Instance.OnCameraChanged += GameInput_OnCameraChanged;
+    }
+
+    private void GameInput_OnCameraChanged(object sender, EventArgs e)
+    {
+        isMainCameraOn = !isMainCameraOn;
+    }
+
     public override void FixedUpdateNetwork()
     {
         if (GetInput(out NetworkInputData input))
@@ -35,6 +47,7 @@ public class CharacterMovementHandler : NetworkBehaviour
             CheckFallRespawn();
         }
     }
+
     private void CheckFallRespawn()
     {
         if (transform.position.y < -12)

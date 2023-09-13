@@ -6,12 +6,17 @@ public class PlayerManager : NetworkBehaviour
 {
     public static PlayerManager Instance;
 
-    [Networked, Capacity(100)] //Capacity is gonna be the max player size later on
+    [Networked(OnChanged = nameof(OnPlayerListChanged)), Capacity(100)] //Capacity is gonna be the max player size later on
     public NetworkLinkedList<NetworkPlayer> _players => default;
     public event EventHandler OnLocalPlayerSpawned;
+
     private void Awake()
     {
         Instance = this;
+    }
+    static void OnPlayerListChanged(Changed<PlayerManager> changed)
+    {
+        //all the players will know that when player list has changed
     }
     public void OnSpawned()
     {
@@ -19,12 +24,17 @@ public class PlayerManager : NetworkBehaviour
     }
     public void AddPlayer(NetworkPlayer player)
     {
-        RPC_AddPlayer(player);
+        if (Object.HasStateAuthority)
+        {
+            _players.Add(player);
+        }
     }
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_AddPlayer(NetworkPlayer player, RpcInfo info = default)
+    public void RemovePlayer(NetworkPlayer player)
     {
-        _players.Add(player);
+        if (Object.HasStateAuthority)
+        {
+            _players.Remove(player);
+        }
     }
     public NetworkString<_16> GetPlayerNickname(NetworkId id)
     {

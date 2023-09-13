@@ -26,7 +26,6 @@ public class NetworkInGameMessages : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     void RPC_InGameMessage(string message, RpcInfo info = default)
     {
-        Debug.Log($"[RPC] InGameMessage {message}");
         inGameMessagesUIHander.OnGameMessageReceived(message);
     }
 }

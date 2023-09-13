@@ -125,7 +125,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
 
         moveVelocity.x = horizontalVel.x;
         moveVelocity.z = horizontalVel.z;
-
         Controller.Move(moveVelocity * deltaTime);
 
         Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;

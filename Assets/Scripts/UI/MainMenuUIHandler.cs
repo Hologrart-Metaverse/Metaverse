@@ -6,7 +6,8 @@ public class MainMenuUIHandler : MonoBehaviour
 {
     public const string PLAYER_NICKNAME = "PlayerNickname";
     public TMP_InputField inputField;
-
+    [SerializeField] private Transform menuTransform;
+    [SerializeField] private TextMeshProUGUI loadingText;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,8 @@ public class MainMenuUIHandler : MonoBehaviour
         PlayerPrefs.Save();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        menuTransform.gameObject.SetActive(false);
+        loadingText.enabled = true;
     }
 
 }

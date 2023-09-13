@@ -5,10 +5,10 @@ public class CharacterInputHandler : MonoBehaviour
 {
     private bool isJumpButtonPressed;
 
-    private LocalCameraHandler _localCameraHandler;
+    private LocalCameraHandler _fpsCameraHandler;
     private void Awake()
     {
-        _localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
+        _fpsCameraHandler = GetComponentInChildren<LocalCameraHandler>();
     }
     private void Start()
     {
@@ -16,22 +16,25 @@ public class CharacterInputHandler : MonoBehaviour
     }
     private void Update()
     {
+        if (EventSystem.current.currentSelectedGameObject != null)
+            return;
+
         //Jump
         if (GameInput.Instance.IsJumpButtonPressed())
             isJumpButtonPressed = true;
 
         //Set view
-        _localCameraHandler.SetViewInputVector(GameInput.Instance.GetMouseLook());
+        _fpsCameraHandler.SetViewInputVector(GameInput.Instance.GetMouseLook());
     }
     public NetworkInputData GetNetworkInput()
     {
         NetworkInputData networkInputData = new NetworkInputData();
 
-        if(EventSystem.current.currentSelectedGameObject == null)
+        if (EventSystem.current.currentSelectedGameObject == null)
         {
             networkInputData.movementInput = GameInput.Instance.GetMovementVectorNormalized();
 
-            networkInputData.aimForwardVector = _localCameraHandler.transform.forward;
+            networkInputData.aimForwardVector = _fpsCameraHandler.transform.forward;
 
             networkInputData.isJumpPressed = isJumpButtonPressed;
         }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class GameInput : MonoBehaviour
     private InputSystem inputActions;
 
     public event EventHandler OnInteractAction;
-    public event EventHandler OnChangeCam;
+    public event EventHandler OnCameraChanged;
     public event EventHandler OnEnterPressed;
     //public event EventHandler OnAttack;
 
@@ -40,11 +41,15 @@ public class GameInput : MonoBehaviour
 
     private void ChangeCam_performed(InputAction.CallbackContext obj)
     {
-        OnChangeCam?.Invoke(this, EventArgs.Empty);
+        if (EventSystem.current.currentSelectedGameObject != null)
+            return;
+        OnCameraChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void Interaction_performed(InputAction.CallbackContext obj)
     {
+        if (EventSystem.current.currentSelectedGameObject != null)
+            return;
         OnInteractAction?.Invoke(this, EventArgs.Empty);
     }
 
@@ -62,6 +67,7 @@ public class GameInput : MonoBehaviour
     {
         return inputActions.Player.Jump.IsPressed();
     }
+ 
     public Vector2 GetMovementVectorNormalized()
     {
         Vector2 inputVector = inputActions.Player.Move.ReadValue<Vector2>();
