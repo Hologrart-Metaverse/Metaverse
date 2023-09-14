@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class CharacterInputHandler : MonoBehaviour
 {
     private bool isJumpButtonPressed;
-
+    private bool isRunning;
     private LocalCameraHandler _fpsCameraHandler;
     private void Awake()
     {
@@ -22,7 +22,9 @@ public class CharacterInputHandler : MonoBehaviour
         //Jump
         if (GameInput.Instance.IsJumpButtonPressed())
             isJumpButtonPressed = true;
-
+        //Sprint
+        if(GameInput.Instance.IsRunning())
+            isRunning = true;
         //Set view
         _fpsCameraHandler.SetViewInputVector(GameInput.Instance.GetMouseLook());
     }
@@ -37,6 +39,8 @@ public class CharacterInputHandler : MonoBehaviour
             networkInputData.aimForwardVector = _fpsCameraHandler.transform.forward;
 
             networkInputData.isJumpPressed = isJumpButtonPressed;
+
+            networkInputData.isRunning = isRunning;
         }
         else
         {
@@ -44,6 +48,7 @@ public class CharacterInputHandler : MonoBehaviour
             networkInputData.aimForwardVector = Vector2.zero;
         }
         isJumpButtonPressed = false;
+        isRunning = false;
 
         return networkInputData;
     }

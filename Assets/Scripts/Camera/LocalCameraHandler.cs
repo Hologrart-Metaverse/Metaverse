@@ -1,13 +1,9 @@
 using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class LocalCameraHandler : MonoBehaviour
 {
     [SerializeField] private Transform cameraAnchorPoint;
-    [SerializeField] private Transform cinemachineFollowTarget;
     [SerializeField] private float cinemachineRotationSmoothValue;
 
     //Input
@@ -37,7 +33,8 @@ public class LocalCameraHandler : MonoBehaviour
         {
             GameInput.Instance.OnCameraChanged += GameInput_OnCameraChanged;
             cinemachine = FindObjectOfType<CinemachineVirtualCamera>();
-            cinemachine.Follow = cinemachineFollowTarget;
+            cinemachine.Follow = cameraAnchorPoint;
+            SetRender();
         }
     }
 
@@ -45,6 +42,16 @@ public class LocalCameraHandler : MonoBehaviour
     {
         cinemachine.enabled = !cinemachine.enabled;
         cinemachine.transform.rotation = Quaternion.Euler(cameraRotationX, cameraRotationY, 0);
+        SetRender();
+    }
+    private void SetRender()
+    {
+        if (!cinemachine.enabled)
+        {
+            Utils.SetRenderLayerInChildren(NetworkPlayer.Local.transform, 6);
+        }
+        else
+            Utils.SetRenderLayerInChildren(NetworkPlayer.Local.transform, 0);
     }
     void LateUpdate()
     {

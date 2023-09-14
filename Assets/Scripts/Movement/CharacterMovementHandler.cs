@@ -6,6 +6,8 @@ public class CharacterMovementHandler : NetworkBehaviour
 {
     private NetworkCharacterControllerPrototypeCustom _networkCharacterController;
     private bool isMainCameraOn = false;
+    [SerializeField] private float sprintSpeed = 2f;
+
     private void Awake()
     {
         _networkCharacterController = GetComponent<NetworkCharacterControllerPrototypeCustom>();
@@ -35,7 +37,7 @@ public class CharacterMovementHandler : NetworkBehaviour
             //Move
             Vector3 moveDirection = transform.forward * input.movementInput.y + transform.right * input.movementInput.x;
             moveDirection.Normalize();
-
+            moveDirection = input.isRunning ? moveDirection * sprintSpeed : moveDirection;
             _networkCharacterController.Move(moveDirection);
 
             //Jump
@@ -55,5 +57,5 @@ public class CharacterMovementHandler : NetworkBehaviour
             transform.position = Utils.GetRandomPosition();
         }
     }
-  
+   
 }

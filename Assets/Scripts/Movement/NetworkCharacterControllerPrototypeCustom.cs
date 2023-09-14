@@ -1,6 +1,7 @@
 using System;
 using Fusion;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
 [OrderBefore(typeof(NetworkTransform))]
@@ -16,10 +17,26 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     public float maxSpeed = 2.0f;
     public float rotationSpeed = 15.0f;
     public float viewUpDownRotationSpeed = 50.0f;
-
+    private Animator _animator;
     [Networked]
     [HideInInspector]
     public bool IsGrounded { get; set; }
+
+    [Tooltip("Useful for rough ground")]
+    public float GroundedOffset = -0.14f;
+
+    [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+    public float GroundedRadius = 0.28f;
+    [Tooltip("What layers the character uses as ground")]
+    public LayerMask GroundLayers;
+
+    public AudioClip LandingAudioClip;
+    public AudioClip[] FootstepAudioClips;
+    [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+
+    private float _speed;
+    [SerializeField] private float _speedChangingSmoothness = 5f;
+
 
     [Networked]
     [HideInInspector]
@@ -59,7 +76,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
         if (Controller == null)
         {
             Controller = GetComponent<CharacterController>();
-
+            _animator = GetComponent<Animator>();
             Assert.Check(Controller != null, $"An object with {nameof(NetworkCharacterControllerPrototype)} must also have a {nameof(CharacterController)} component.");
         }
     }
@@ -81,6 +98,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     /// <param name="ignoreGrounded">Jump even if not in a grounded state.</param>
     /// <param name="overrideImpulse">Optional field to override the jump impulse. If null, <see cref="jumpImpulse"/> is used.</param>
     /// </summary>
+    /// 
     public virtual void Jump(bool ignoreGrounded = false, float? overrideImpulse = null)
     {
         if (IsGrounded || ignoreGrounded)
@@ -88,6 +106,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
             var newVel = Velocity;
             newVel.y += overrideImpulse ?? jumpImpulse;
             Velocity = newVel;
+            _animator.SetBool("Jump", true);
         }
     }
 
@@ -97,6 +116,10 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     /// </summary>
     public virtual void Move(Vector3 direction)
     {
+        _speed = Mathf.Lerp(_speed, direction.magnitude, Runner.DeltaTime * _speedChangingSmoothness);
+        _animator.SetFloat("Speed", _speed);
+
+
         var deltaTime = Runner.DeltaTime;
         var previousPos = transform.position;
         var moveVelocity = Velocity;
@@ -127,12 +150,42 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
         moveVelocity.z = horizontalVel.z;
         Controller.Move(moveVelocity * deltaTime);
 
-        Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
-        IsGrounded = Controller.isGrounded;
-    }
 
+        Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
+        GroundedCheck();
+    }
+    private void GroundedCheck()
+    {
+        // set sphere position, with offset
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
+            transform.position.z);
+        IsGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+            QueryTriggerInteraction.Ignore);
+
+        _animator.SetBool("Grounded", IsGrounded);
+    }
     public void Rotate(float rotationY)
     {
         transform.Rotate(0, rotationY * Runner.DeltaTime * rotationSpeed, 0);
+    }
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            if (FootstepAudioClips.Length > 0)
+            {
+                var index = UnityEngine.Random.Range(0, FootstepAudioClips.Length);
+                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(transform.position), FootstepAudioVolume);
+            }
+        }
+    }
+
+    private void OnLand(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(transform.position), FootstepAudioVolume);
+            _animator.SetBool("Jump", false);
+        }
     }
 }

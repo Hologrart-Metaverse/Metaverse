@@ -4,7 +4,7 @@ public static class Utils
 {
     public static Vector3 GetRandomPosition()
     {
-        return new Vector3(Random.Range(-2, 2), -3, Random.Range(-17, -22));
+        return new Vector3(Random.Range(-2, 2), -2, Random.Range(-15, -20));
     }
     public static void SetMouseLockedState(bool locked)
     {
@@ -17,6 +17,16 @@ public static class Utils
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        }
+    }
+    public static void SetRenderLayerInChildren(Transform transform, int layerNumber)
+    {
+        foreach (Transform trans in transform.GetComponentsInChildren<Transform>(true))
+        {
+            if (trans.CompareTag("IgnoreLayerChange"))
+                continue;
+
+            trans.gameObject.layer = layerNumber;
         }
     }
 }

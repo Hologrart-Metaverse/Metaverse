@@ -65,9 +65,12 @@ public class GameInput : MonoBehaviour
     }
     public bool IsJumpButtonPressed()
     {
-        return inputActions.Player.Jump.IsPressed();
+        return inputActions.Player.Jump.triggered;
     }
- 
+    public bool IsRunning()
+    {
+        return inputActions.Player.Sprint.IsPressed();
+    }
     public Vector2 GetMovementVectorNormalized()
     {
         Vector2 inputVector = inputActions.Player.Move.ReadValue<Vector2>();
