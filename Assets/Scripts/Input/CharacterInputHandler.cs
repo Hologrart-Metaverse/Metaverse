@@ -42,11 +42,7 @@ public class CharacterInputHandler : MonoBehaviour
 
             networkInputData.isRunning = isRunning;
         }
-        else
-        {
-            networkInputData.movementInput = Vector2.zero;
-            networkInputData.aimForwardVector = Vector2.zero;
-        }
+
         isJumpButtonPressed = false;
         isRunning = false;
 

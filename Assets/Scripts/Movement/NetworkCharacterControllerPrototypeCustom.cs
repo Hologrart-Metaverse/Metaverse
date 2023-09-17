@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Fusion;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,7 +20,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     public float viewUpDownRotationSpeed = 50.0f;
     private Animator _animator;
     [Networked]
-    [HideInInspector]
     public bool IsGrounded { get; set; }
 
     [Tooltip("Useful for rough ground")]
@@ -55,7 +55,12 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
     public CharacterController Controller { get; private set; }
-
+    private float _verticalVelocity;
+    private bool checkOnce = true;
+    private bool isTeleporting;
+    private float coyoteTime;
+    private float coyoteTimeMax = .15f;
+    private Vector3 targetTeleportPos;
     protected override void Awake()
     {
         base.Awake();
@@ -101,11 +106,10 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     /// 
     public virtual void Jump(bool ignoreGrounded = false, float? overrideImpulse = null)
     {
-        if (IsGrounded || ignoreGrounded)
+        if (IsGrounded || ignoreGrounded || coyoteTime < coyoteTimeMax)
         {
-            var newVel = Velocity;
-            newVel.y += overrideImpulse ?? jumpImpulse;
-            Velocity = newVel;
+            coyoteTime = coyoteTimeMax;
+            _verticalVelocity = overrideImpulse ?? jumpImpulse;
             _animator.SetBool("Jump", true);
         }
     }
@@ -118,7 +122,21 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     {
         _speed = Mathf.Lerp(_speed, direction.magnitude, Runner.DeltaTime * _speedChangingSmoothness);
         _animator.SetFloat("Speed", _speed);
-
+        if (!IsGrounded)
+        {
+            _verticalVelocity += gravity * (float)Runner.Config.Simulation.DeltaTime;
+            checkOnce = true;
+            coyoteTime += (float)Runner.Config.Simulation.DeltaTime;
+        }
+        else
+        {
+            if (checkOnce)
+            {
+                coyoteTime = 0;
+                checkOnce = false;
+                _verticalVelocity = -1f;
+            }
+        }
 
         var deltaTime = Runner.DeltaTime;
         var previousPos = transform.position;
@@ -148,12 +166,14 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
 
         moveVelocity.x = horizontalVel.x;
         moveVelocity.z = horizontalVel.z;
+
         Controller.Move(moveVelocity * deltaTime);
-
-
-        Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
+        var newVelocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
+        Velocity = new Vector3(newVelocity.x, _verticalVelocity, newVelocity.z);
         GroundedCheck();
+
     }
+
     private void GroundedCheck()
     {
         // set sphere position, with offset
@@ -186,6 +206,13 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
         {
             AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(transform.position), FootstepAudioVolume);
             _animator.SetBool("Jump", false);
+            _verticalVelocity = 0f;
         }
+    }
+    public void Teleport(Vector3 pos)
+    {
+        Controller.enabled = false;
+        transform.position = pos;
+        Controller.enabled = true;
     }
 }

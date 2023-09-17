@@ -34,6 +34,9 @@ public class InGameMessagesUIHandler : MonoBehaviour
     {
         if (!isChatSelected)
         {
+            if (Utils.IsChooseScreenOn)
+                return;
+
             inputField.text = "";
             Utils.SetMouseLockedState(false);
             inputField.Select();

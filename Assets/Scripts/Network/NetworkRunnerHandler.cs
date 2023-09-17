@@ -9,18 +9,15 @@ using System.Linq;
 
 public class NetworkRunnerHandler : MonoBehaviour
 {
-    public NetworkRunner networkRunnerPrefab;
+    [SerializeField] private NetworkRunner networkRunnerPrefab;
 
     private NetworkRunner networkRunner;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         networkRunner = Instantiate(networkRunnerPrefab.gameObject).GetComponent<NetworkRunner>();
         networkRunner.name = "Network Runner";
 
         var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
-
         Debug.Log($"Server NetworkRunner started.");
     }
 

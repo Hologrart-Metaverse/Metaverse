@@ -81,4 +81,9 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     {
         this.NickName = nickName;
     }
+    public void TeleportPlayer(Vector3 pos)
+    {
+        GetComponent<NetworkCharacterControllerPrototypeCustom>().Teleport(pos);
+    }
+ 
 }

@@ -1,6 +1,7 @@
 using Fusion;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterMovementHandler : NetworkBehaviour
 {
@@ -24,7 +25,7 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (GetInput(out NetworkInputData input))
+        if (GetInput(out NetworkInputData input) && EventSystem.current.currentSelectedGameObject == null)
         {
             //Rotate
             transform.forward = input.aimForwardVector;
@@ -57,5 +58,5 @@ public class CharacterMovementHandler : NetworkBehaviour
             transform.position = Utils.GetRandomPosition();
         }
     }
-   
+
 }
