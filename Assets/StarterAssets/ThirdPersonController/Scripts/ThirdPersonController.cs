@@ -1,5 +1,7 @@
 ﻿ using UnityEngine;
-#if ENABLE_INPUT_SYSTEM 
+using Photon.Pun;
+using Cinemachine;
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
@@ -14,6 +16,7 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+        public static ThirdPersonController Local;
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -109,7 +112,7 @@ namespace StarterAssets
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
-
+        private CinemachineVirtualCamera cinemachine;
         private bool IsCurrentDeviceMouse
         {
             get
@@ -122,20 +125,23 @@ namespace StarterAssets
             }
         }
 
-
+        private PhotonView PV;
         private void Awake()
         {
-            // get a reference to our main camera
-            if (_mainCamera == null)
+            PV = GetComponent<PhotonView>();
+            if (PV.IsMine)
             {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                // get a reference to our main camera
+                if (_mainCamera == null)
+                {
+                    _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                }
+                Local = this;
             }
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -144,7 +150,11 @@ namespace StarterAssets
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
-
+            if (!PV.IsMine)
+                return;
+            cinemachine = FindObjectOfType<CinemachineVirtualCamera>();
+            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            cinemachine.Follow = CinemachineCameraTarget.transform;
             AssignAnimationIDs();
 
             // reset our timeouts on start
@@ -154,6 +164,8 @@ namespace StarterAssets
 
         private void Update()
         {
+            if (!PV.IsMine)
+                return;
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
@@ -163,6 +175,8 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
+            if (!PV.IsMine)
+                return;
             CameraRotation();
         }
 

@@ -30,7 +30,6 @@ public static class Utils
         {
             if (trans.CompareTag("IgnoreLayerChange"))
                 continue;
-
             trans.gameObject.layer = layerNumber;
         }
     }

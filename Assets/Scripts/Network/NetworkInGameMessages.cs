@@ -1,14 +1,17 @@
 using UnityEngine;
-using Fusion;
+using Photon.Pun;
 
-public class NetworkInGameMessages : NetworkBehaviour
+public class NetworkInGameMessages : MonoBehaviourPunCallbacks
 {
     public static NetworkInGameMessages Instance;
 
     [SerializeField] InGameMessagesUIHandler inGameMessagesUIHander;
+
+    private PhotonView PV;
     private void Awake()
     {
         Instance = this;
+        PV = GetComponent<PhotonView>();
     }
     void Start()
     {
@@ -20,11 +23,10 @@ public class NetworkInGameMessages : NetworkBehaviour
 
     public void SendInGameRPCMessage(string message)
     {
-        RPC_InGameMessage(message);
+        PV.RPC(nameof(RPC_InGameMessage), RpcTarget.All, message);
     }
-
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    void RPC_InGameMessage(string message, RpcInfo info = default)
+    [PunRPC]
+    void RPC_InGameMessage(string message)
     {
         inGameMessagesUIHander.OnGameMessageReceived(message);
     }

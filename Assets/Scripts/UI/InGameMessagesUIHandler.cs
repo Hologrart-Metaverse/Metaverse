@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.XR;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
 public class InGameMessagesUIHandler : MonoBehaviour
 {
@@ -15,19 +13,21 @@ public class InGameMessagesUIHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerManager.Instance.OnLocalPlayerSpawned += PlayerManager_OnLocalPlayerSpawned;
         sendMsgButton.onClick.AddListener(() => SendMessage());
         gameObject.SetActive(false);
+        Spawner.Instance.OnPlayerSpawned += Spawner_OnPlayerSpawned;
     }
 
-    private void PlayerManager_OnLocalPlayerSpawned(object sender, System.EventArgs e)
+    private void Spawner_OnPlayerSpawned(object sender, System.EventArgs e)
     {
         gameObject.SetActive(true);
         GameInput.Instance.OnEnterPressed += GameInput_OnEnterPressed;
     }
+
+
     private void OnDestroy()
     {
-        PlayerManager.Instance.OnLocalPlayerSpawned -= PlayerManager_OnLocalPlayerSpawned;
+        Spawner.Instance.OnPlayerSpawned -= Spawner_OnPlayerSpawned;
         GameInput.Instance.OnEnterPressed -= GameInput_OnEnterPressed;
     }
     private void GameInput_OnEnterPressed(object sender, System.EventArgs e)
@@ -59,7 +59,7 @@ public class InGameMessagesUIHandler : MonoBehaviour
             return;
 
         inputField.text = "";
-        string messageWithNickname = NetworkPlayer.Local.NickName.ToString() + ": " + message;
+        string messageWithNickname = PhotonNetwork.LocalPlayer.NickName + ": " + message;
         NetworkInGameMessages.Instance.SendInGameRPCMessage(messageWithNickname);
     }
     public void OnGameMessageReceived(string message)
