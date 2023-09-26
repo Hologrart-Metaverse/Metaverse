@@ -97,7 +97,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (PV.IsMine)
         {
-            _animator.Play("Idle");
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
             AssignAnimationIDs();
@@ -109,7 +108,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Destroy(tpsCam.gameObject);
         }
     }
-    void Update()
+    private void Update()
+    {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+        CamCheck();
+        JumpAndGravity();
+        CheckGroundedState();
+        HandleInteractions();
+    }
+    private void FixedUpdate()
     {
         if (!PV.IsMine)
         {
@@ -124,12 +134,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else
             cinemachineBrain.enabled = true;
-
-        CamCheck();
         Move();
-        JumpAndGravity();
-        CheckGroundedState();
-        HandleInteractions();
     }
     private void LateUpdate()
     {
@@ -404,7 +409,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         return GetComponent<AudioSource>();
     }
-    private void OnFootstep(AnimationEvent animationEvent)
+    public void OnFootstep(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
@@ -415,14 +420,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
     }
-    private void OnLand(AnimationEvent animationEvent)
+    public void OnLand()
     {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(transform.position), FootstepAudioVolume);
-            _animator.SetBool("Jump", false);
-            _verticalVelocity = 0f;
-        }
+        AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(transform.position), FootstepAudioVolume);
+        _animator.SetBool("Jump", false);
+        _verticalVelocity = 0f;
     }
 
 }

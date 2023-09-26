@@ -1,0 +1,310 @@
+# MTL Exporter v1.0 by Seungwoo Oh at CLO - Virtual Fashion Inc.
+newmtl FABRIC_1_FRONT_732718
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+map_bump 25_normal_1001.png
+newmtl Knit_Cotton_Jersey_FRONT_2935
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+map_bump 25_normal_1001.png
+newmtl Fabric11678819_FRONT_31577
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+map_bump 25_normal_1001.png
+newmtl Material3264685
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.487500 0.487500 0.487500
+Ns 64.000000
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+map_bump 25_normal_1001.png
+newmtl Material5305576
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+map_bump 25_normal_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material3246
+Ka 0.198647 0.135807 0.112956
+Kd 0.633187 0.432885 0.360047
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material11310
+Ka 0.257132 0.257132 0.257132
+Kd 0.819608 0.819608 0.819608
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material11315
+Ka 0.257132 0.257132 0.257132
+Kd 0.819608 0.819608 0.819608
+Ks 0.091112 0.091112 0.091112
+Ns 50.999996
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material11332
+Ka 0.257132 0.257132 0.257132
+Kd 0.819608 0.819608 0.819608
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material11334
+Ka 0.257132 0.257132 0.257132
+Kd 0.819608 0.819608 0.819608
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_1001.png
+map_Kd 25_diffuse_1001.png
+newmtl Material11345
+Ka 0.257132 0.257132 0.257132
+Kd 0.819608 0.819608 0.819608
+Ks 0.075000 0.075000 0.075000
+Ns 28.763239
+illum 2
+map_Ka 25_diffuse_10-21.png
+map_Kd 25_diffuse_10-21.png

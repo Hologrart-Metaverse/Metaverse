@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 711bdb547d57eb645bde51524e2c04a2, type: 3}
+  m_Name: ClothSO
+  m_EditorClassIdentifier: 
+  content: 1
+  part: 5
+  customizationParts:
+  - customizationPart: {fileID: 5802569768947812680, guid: 10ff8f7b311da0a42abf3ca7b88d3db2, type: 3}
+    customizationPartSprite: {fileID: 21300000, guid: 95d27004844566e41a8c7974fef8ec68, type: 3}
+  - customizationPart: {fileID: 2181426169260874085, guid: c9a8d1a55f80e6a4688432c70142d781, type: 3}
+    customizationPartSprite: {fileID: 21300000, guid: a9a2e86ccacb7e84d960d1d96cdb4f22, type: 3}
+  - customizationPart: {fileID: 6171872063079851683, guid: 36d3f46d6cda370459355c00fcdcb4e4, type: 3}
+    customizationPartSprite: {fileID: 21300000, guid: 18d444e5313e2344faa201e14a9aaf0d, type: 3}
+  - customizationPart: {fileID: 150933901106532438, guid: 19ddd7ac28eabe846945695b98d751fd, type: 3}
+    customizationPartSprite: {fileID: 21300000, guid: 78076c489d00787438333c37f461ce2b, type: 3}
+  - customizationPart: {fileID: 1165343494605289148, guid: 8984cbf7d5a248045aff43e6d6cd0103, type: 3}
+    customizationPartSprite: {fileID: 21300000, guid: c76ed0a98039e2b4783632a0cd39ac02, type: 3}
