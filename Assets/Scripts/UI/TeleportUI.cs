@@ -25,27 +25,25 @@ public class TeleportUI : MonoBehaviour
     }
     public void OnScrollValueChanged()
     {
-        if (areaBtns.Count < 5)
-            return;
+        int areaBtnsOrder = areaBtns.Count > 5 ? areaBtns.Count - 5 : 0;
+
         //Clamp content position
         Vector3 contentPos = contentRect.localPosition;
-        Debug.Log(contentPos.y);
-        contentPos.y = Mathf.Clamp(contentPos.y, contentY, contentY + (areaBtns.Count - 5) * 30);
+        contentPos.y = Mathf.Clamp(contentPos.y, contentY, contentY + areaBtnsOrder * 30);
         contentRect.localPosition = contentPos;
     }
     public void Show()
     {
-        Debug.Log("Show çalýþtý");
         UpdateContentVisual();
         teleportUI.gameObject.SetActive(true);
         Utils.SetMouseLockedState(false);
-        Utils.IsChooseScreenOn = true;
+        Utils.IsUIScreenOpen = true;
     }
     public void Hide()
     {
         teleportUI.gameObject.SetActive(false);
         Utils.SetMouseLockedState(true);
-        Utils.IsChooseScreenOn = false;
+        Utils.IsUIScreenOpen = false;
         EventSystem.current.SetSelectedGameObject(null);
     }
     private void UpdateContentVisual()

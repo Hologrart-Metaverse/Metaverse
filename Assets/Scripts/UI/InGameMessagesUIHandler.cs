@@ -34,7 +34,7 @@ public class InGameMessagesUIHandler : MonoBehaviour
     {
         if (!isChatSelected)
         {
-            if (Utils.IsChooseScreenOn)
+            if (Utils.IsUIScreenOpen)
                 return;
 
             inputField.text = "";

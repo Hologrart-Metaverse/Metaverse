@@ -222,9 +222,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             fpsCam.enabled = !fpsCam.isActiveAndEnabled;
             tpsCam.enabled = !tpsCam.isActiveAndEnabled;
-            int layer = fpsCam.enabled ? 6 : 0;
+            int layer = fpsCam.enabled ? 6 : 7;
             Utils.SetRenderLayerInChildren(player.transform, layer);
-
         }
 
     }
@@ -239,31 +238,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Vector2 movement = GameInput.Instance.GetMovementVectorNormalized();
 
 
-        Vector3 moveDir = new Vector3(movement.x, 0, movement.y);
-        moveDir = cam.transform.forward * moveDir.z + cam.transform.right * moveDir.x;
+        Vector3 forward = cam.transform.forward;
+        Vector3 right = cam.transform.right;
+
+        forward.y = 0f; // Y ekseni üzerindeki dönüþü önlemek için sýfýrlayýn.
+        right.y = 0f;
+
+        Vector3 moveDir = (forward * movement.y + right * movement.x).normalized;
+
+        // Yerçekimi etkisi olmasýn
         moveDir.y = 0f;
+
         if (GameInput.Instance.GetInputActions().Player.Sprint.IsPressed())
         {
             moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * sprintSpeed, ref smoothMoveVelocity, smoothTime);
-            //if (moveDir == Vector3.zero)
-            //{
-            //    _animator?.SetBool("isRunning", false);
-            //    _animator?.SetBool("isWalking", false);
-            //}
-            //else
-            //{
-            //    _animator?.SetBool("isRunning", true);
-            //}
         }
         else
         {
             moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * walkSpeed, ref smoothMoveVelocity, smoothTime);
-            //if (moveDir == Vector3.zero)
-            //    _animator?.SetBool("isWalking", false);
-            //else
-            //    _animator?.SetBool("isWalking", true);
-
-            //_animator?.SetBool("isRunning", false);
         }
         _speed = Mathf.Lerp(_speed, moveAmount.magnitude, Time.fixedDeltaTime * _speedChangingSmoothness);
         _animator.SetFloat("Speed", _speed);
@@ -282,7 +274,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Quaternion rotation = Quaternion.Euler(0f, cinemachineBrain.transform.eulerAngles.y, 0f);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, rotation, Time.deltaTime * 4f);
         }
-
         Controller.Move(transform.TransformDirection(moveAmount) * Time.fixedDeltaTime +
             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.fixedDeltaTime);
 
@@ -294,7 +285,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             // reset the fall timeout timer
             _fallTimeoutDelta = FallTimeout;
-
 
             // stop our velocity dropping infinitely when grounded
             if (_verticalVelocity < 0.0f)
@@ -358,7 +348,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (transform.position.y < -11)
         {
-            Teleport(Utils.GetRandomPosition());
+            Teleport(Utils.GetRandomPositionAtHangar());
         }
     }
     public void Teleport(Vector3 pos)

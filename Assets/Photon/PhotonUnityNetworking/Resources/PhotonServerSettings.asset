@@ -37,6 +37,7 @@ MonoBehaviour:
   - ClickRpc
   - DestroyRpc
   - RPC_InGameMessage
+  - ChangePixelColorRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public static class Utils
 {
-    public static bool IsChooseScreenOn;
-    public static Vector3 GetRandomPosition()
+    public static bool IsUIScreenOpen;
+    public static Vector3 GetRandomPositionAtHangar()
     {
         return new Vector3(Random.Range(-2, 2), -2, Random.Range(-15, -20));
     }

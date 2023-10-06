@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviourPunCallbacks
     private IEnumerator CreateAfterDelay()
     {
         yield return new WaitForSeconds(1f);
-        CreateController(Utils.GetRandomPosition());
+        CreateController(Utils.GetRandomPositionAtHangar());
     }
 
     void CreateController(Vector3 spawnpoint)

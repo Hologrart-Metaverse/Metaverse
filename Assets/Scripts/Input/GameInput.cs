@@ -63,6 +63,10 @@ public class GameInput : MonoBehaviour
     {
         return inputActions;
     }
+    public bool IsScrollButtonPressing()
+    {
+        return inputActions.Player.ScrollPress.triggered;
+    }
     public bool IsJumpButtonPressed()
     {
         return inputActions.Player.Jump.triggered;
