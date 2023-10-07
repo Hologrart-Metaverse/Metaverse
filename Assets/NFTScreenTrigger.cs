@@ -14,11 +14,12 @@ public class NFTScreenTrigger : MonoBehaviour, I_Interactable
 
     public void OnFaced()
     {
-        Debug.Log("iþte yüzleþtik");
+        InteractionUI.Instance.ShowText("Joint NFT");
     }
 
     public void OnInteractEnded()
     {
+        InteractionUI.Instance.HideText();
     }
 
 }

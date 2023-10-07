@@ -90,7 +90,7 @@ public class ZoomSystem : MonoBehaviour
     {
         if (isScrollPressed && cam.orthographicSize < camOrthographicSizeMax)
         {
-            Vector3 cameraMovement = new Vector3(0, GameInput.Instance.GetMouseLook().y, -GameInput.Instance.GetMouseLook().x) * Time.fixedDeltaTime;
+            Vector3 cameraMovement = new Vector3(0, GameInput.Instance.GetMouseLook().y, -GameInput.Instance.GetMouseLook().x) * speed;
             Vector3 predictedPosition = cam.transform.position + cameraMovement;
             if (predictedPosition.y < camInitPos.y + camYPosClampValue &&
                predictedPosition.y > camInitPos.y - camYPosClampValue &&
@@ -103,7 +103,7 @@ public class ZoomSystem : MonoBehaviour
     }
     private void CameraZoom(float increment)
     {
-        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - increment * Time.fixedDeltaTime, camOrthographicSizeMin, camOrthographicSizeMax);
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - increment * speed, camOrthographicSizeMin, camOrthographicSizeMax);
         if (cam.orthographicSize >= camOrthographicSizeMax)
         {
             cam.transform.position = camInitPos;

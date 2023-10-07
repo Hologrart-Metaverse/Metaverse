@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -55,20 +54,24 @@ public class TeleportUI : MonoBehaviour
         }
         areaBtns.Clear();
 
-        List<Areas> areaList = TeleportSystem.Instance.GetSuitableAreas();
+        List<Area> areaList = AreaSystem.Instance.GetAllAreasExceptCurrent();
 
         for (int i = 0; i < areaList.Count; i++)
         {
             Button areaBtn = Instantiate(areaBtnPrefab, contentRect);
-            Areas area = areaList[i];
-            areaBtn.GetComponent<AreaButton>().InitializeButton(area.ToString());
+            Area area = areaList[i];
+            string areaName = area.ToString();
+            if (areaName.Contains('_'))
+            {
+                areaName = areaName.Replace('_', ' ');
+            }
+            areaBtn.GetComponent<AreaButton>().InitializeButton(areaName);
             areaBtn.onClick.AddListener(() => OnClickAreaBtn(area));
             areaBtns.Add(areaBtn);
         }
     }
-    private void OnClickAreaBtn(Areas area)
+    private void OnClickAreaBtn(Area area)
     {
-        Debug.Log("on click çalýþtý");
         TeleportSystem.Instance.Teleport(area);
         Hide();
     }

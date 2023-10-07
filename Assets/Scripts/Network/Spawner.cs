@@ -27,4 +27,8 @@ public class Spawner : MonoBehaviourPunCallbacks
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "NetworkPlayer"), spawnpoint, Quaternion.identity, 0, new object[] { PV.ViewID });
         OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
+    public Vector3 GetRespawnPosition()
+    {
+        return AreaSystem.Instance.GetCurrentArea().respawnPosition;
+    }
 }

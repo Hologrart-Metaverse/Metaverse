@@ -85,12 +85,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float coyoteTimeMax = .15f;
     private bool checkCoyoteOnce = true;
 
+    private bool isStateSuitable = true;
     void Awake()
     {
         PV = GetComponent<PhotonView>();
         if (PV.IsMine && Local == null)
             Local = this;
-        //PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
     }
 
     void Start()
@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
             AssignAnimationIDs();
+            StateHandler.Instance.StateChanged += StateHandler_StateChanged;
         }
         else
         {
@@ -110,7 +111,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        if (!PV.IsMine)
+        if (!PV.IsMine || !isStateSuitable)
         {
             return;
         }
@@ -121,15 +122,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void FixedUpdate()
     {
-        if (!PV.IsMine)
+        if (!PV.IsMine || !isStateSuitable)
         {
-            //if (PV.IsMine)
-            //{
-            //    moveAmount = new Vector3(0, 0, 0);
-            //    energyBar.ChangeEnergy(energy.hideAndIncrease);
-            //    if (Job.IsJobCanvasActive)
-            //        cinemachineBrain.enabled = false;
-            //}
             return;
         }
         else
@@ -138,7 +132,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void LateUpdate()
     {
-        if (!PV.IsMine)
+        if (!PV.IsMine || !isStateSuitable)
             return;
         CameraRotation();
     }
@@ -146,7 +140,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         OnPlayerDie?.Invoke(this, EventArgs.Empty);
     }
-
+    private void StateHandler_StateChanged(StateHandler sender, State state)
+    {
+        switch (state)
+        {
+            case State.None:
+                isStateSuitable = true;
+                break;
+            default:
+                isStateSuitable = false;
+                break;
+        }
+    }
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash("Speed");
@@ -348,7 +353,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (transform.position.y < -11)
         {
-            Teleport(Utils.GetRandomPositionAtHangar());
+            Teleport(Spawner.Instance.GetRespawnPosition());
         }
     }
     public void Teleport(Vector3 pos)

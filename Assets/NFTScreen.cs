@@ -23,6 +23,7 @@ public class NFTScreen : MonoBehaviour
     {
         UI.gameObject.SetActive(false);
         PV = GetComponent<PhotonView>();
+        colorPickerUI.gameObject.SetActive(false);
     }
     public void ChangeMod(Mode mode)
     {
@@ -79,9 +80,11 @@ public class NFTScreen : MonoBehaviour
     private void ChangePixelColorRPC(int index, string colorHex)
     {
         Image pixel = pixelCreator.GetPixel(index);
-
+        colorHex = "#" + colorHex.Replace("HEX","");
         if (ColorUtility.TryParseHtmlString(colorHex, out Color color))
+        {
             pixel.color = color;
+        }
     }
     public void OnClick_BackButton()
     {
