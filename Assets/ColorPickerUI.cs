@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ColorPickerUI : MonoBehaviour
 {
-    private NFTScreen nftScreen;
+    private JointNFT nftScreen;
     [SerializeField] private Transform pickedColorsContainer;
     [SerializeField] private Transform pickedColorPrefab;
     private List<Color> colorList = new List<Color>();
     private void Start()
     {
-        nftScreen = GetComponentInParent<NFTScreen>();
+        nftScreen = GetComponentInParent<JointNFT>();
     }
     public void OnColorChanged(Color color)
     {

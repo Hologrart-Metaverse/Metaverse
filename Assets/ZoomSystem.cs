@@ -1,24 +1,49 @@
+using Cinemachine;
 using UnityEngine;
+using ActionCode.Attributes;
 using UnityEngine.InputSystem;
 public class ZoomSystem : MonoBehaviour
 {
-    [SerializeField] private Camera cam;
-    [SerializeField] private float camOrthographicSizeMin = .5f;
-    [SerializeField] private float camOrthographicSizeMax = 3.3f;
-    public float speed = 0.01f;
+    public static ZoomSystem Instance;
+    public enum ZoomMode
+    {
+        Dynamic,
+        Static,
+    }
+    public enum ZoomSurface
+    {
+        JointNft,
+        Artifact
+    }
+    private CinemachineVirtualCamera detailCam;
+    private CinemachineFramingTransposer transposer;
+    private ZoomMode currentZoomMode;
+    internal ZoomSurface currentZoomSurface;
+    private float camFOVSizeMin = 10f;
+    private float camFOVSizeMax = 40f;
+    private float camClampValue = 2.2f;
+    private Transform objectTransform;
+    private float speed = 0.08f;
+
     private float prevMagnitude = 0;
     private int touchCount = 0;
     private bool isScrollPressed;
     private Vector3 camInitPos;
-    private float camZPosClampValue = 2.2f;
-    private float camYPosClampValue = 2.2f;
+
+    private Transform objectFollowTransform;
+    private Vector3 objectInitialPosition;
+    internal bool isZooming;
     private void Awake()
     {
-        camInitPos = cam.transform.position;
-        Debug.Log(camInitPos);
+        Instance = this;
     }
     private void Start()
     {
+        detailCam = GlobalCameras.Instance.GetVirtualCamera(GlobalCameras.CameraType.Details);
+        transposer = detailCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+        Spawner.Instance.OnPlayerSpawned += Spawner_OnPlayerSpawned;
+        camInitPos = transposer.m_TrackedObjectOffset;
         // mouse scroll
         var scrollAction = new InputAction(binding: "<Mouse>/scroll");
         scrollAction.Enable();
@@ -78,6 +103,56 @@ public class ZoomSystem : MonoBehaviour
         GameInput.Instance.GetInputActions().Player.ScrollPress.started += ScrollButtonPressed;
         GameInput.Instance.GetInputActions().Player.ScrollPress.canceled += ScrollButtonReleased;
     }
+
+    private void Spawner_OnPlayerSpawned(object sender, System.EventArgs e)
+    {
+        objectFollowTransform = PlayerController.Local.GetItemExaminationPoint();
+        Spawner.Instance.OnPlayerSpawned -= Spawner_OnPlayerSpawned;
+    }
+
+    public void StartZooming(ZoomMode zoomMode = ZoomMode.Static, ZoomSurface zoomSurface = ZoomSurface.Artifact, Transform zoomObject = null)
+    {
+        currentZoomMode = zoomMode;
+        currentZoomSurface = zoomSurface;
+        switch (currentZoomMode)
+        {
+            case ZoomMode.Static:
+                SetZoomAdjustments(zoomSurface);
+                transposer.m_TrackedObjectOffset = Vector3.zero;
+                detailCam.m_Lens.FieldOfView = camFOVSizeMax;
+                break;
+            case ZoomMode.Dynamic:
+                objectTransform = zoomObject.GetComponentInParent<Artifact>().transform;
+                objectInitialPosition = objectTransform.position;
+                break;
+        }
+        isZooming = true;
+    }
+    private void SetZoomAdjustments(ZoomSurface zoomSurface)
+    {
+        switch (zoomSurface)
+        {
+            case ZoomSurface.Artifact:
+                camFOVSizeMin = 20f;
+                camFOVSizeMax = 40f;
+                break;
+            case ZoomSurface.JointNft:
+                camFOVSizeMin = 60f;
+                camFOVSizeMax = 120f;
+                break;
+        }
+        camClampValue = camFOVSizeMin / 40f;
+        speed = 0.05f + camClampValue / 20f;
+    }
+    public void EndZooming()
+    {
+        isZooming = false;
+        if (currentZoomMode == ZoomMode.Dynamic)
+        {
+            objectTransform.position = objectInitialPosition;
+            objectTransform.rotation = Quaternion.identity;
+        }
+    }
     private void ScrollButtonPressed(InputAction.CallbackContext obj)
     {
         isScrollPressed = true;
@@ -88,31 +163,50 @@ public class ZoomSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (isScrollPressed && cam.orthographicSize < camOrthographicSizeMax)
+        if (isScrollPressed && isZooming)
         {
-            Vector3 cameraMovement = new Vector3(0, GameInput.Instance.GetMouseLook().y, -GameInput.Instance.GetMouseLook().x) * speed;
-            Vector3 predictedPosition = cam.transform.position + cameraMovement;
-            if (predictedPosition.y < camInitPos.y + camYPosClampValue &&
-               predictedPosition.y > camInitPos.y - camYPosClampValue &&
-               predictedPosition.z < camInitPos.z + camZPosClampValue &&
-               predictedPosition.z > camInitPos.z - camZPosClampValue)
+            if (currentZoomMode == ZoomMode.Static && detailCam.m_Lens.FieldOfView < camFOVSizeMax)
             {
-                cam.transform.position += cameraMovement;
+                Vector3 cameraMovement = new Vector3(GameInput.Instance.GetMouseLook().x, GameInput.Instance.GetMouseLook().y, 0) * speed;
+                if (currentZoomSurface == ZoomSurface.Artifact) cameraMovement.x *= -1;
+                Vector3 predictedPosition = transposer.m_TrackedObjectOffset + cameraMovement;
+                if (predictedPosition.y < camInitPos.y + camClampValue &&
+                   predictedPosition.y > camInitPos.y - camClampValue &&
+                   predictedPosition.x < camInitPos.x + camClampValue &&
+                   predictedPosition.x > camInitPos.x - camClampValue)
+                {
+                    transposer.m_TrackedObjectOffset += cameraMovement;
+                }
             }
+            else if (currentZoomMode == ZoomMode.Dynamic)
+            {
+                Vector3 cameraMovement = new Vector3(GameInput.Instance.GetMouseLook().y, GameInput.Instance.GetMouseLook().x, 0);
+                objectTransform.Rotate(cameraMovement);
+            }
+        }
+    }
+    private void LateUpdate()
+    {
+        if (currentZoomMode == ZoomMode.Dynamic && isZooming)
+        {
+            objectTransform.transform.localPosition = Vector3.Lerp(objectTransform.transform.localPosition, objectFollowTransform.position, Time.deltaTime * 5f);
         }
     }
     private void CameraZoom(float increment)
     {
-        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - increment * speed, camOrthographicSizeMin, camOrthographicSizeMax);
-        if (cam.orthographicSize >= camOrthographicSizeMax)
+        if (currentZoomMode == ZoomMode.Static && isZooming)
         {
-            cam.transform.position = camInitPos;
+            detailCam.m_Lens.FieldOfView = Mathf.Clamp(detailCam.m_Lens.FieldOfView - increment * speed, camFOVSizeMin, camFOVSizeMax);
+            if (detailCam.m_Lens.FieldOfView >= camFOVSizeMax)
+            {
+                transposer.m_TrackedObjectOffset = camInitPos;
+            }
         }
     }
 
     public void ResetView()
     {
-        cam.transform.position = camInitPos;
-        cam.orthographicSize = camOrthographicSizeMax;
+        transposer.m_TrackedObjectOffset = camInitPos;
+        detailCam.m_Lens.FieldOfView = camFOVSizeMax;
     }
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4730fa239ffb5574fa039caba6a99ea9, type: 3}
+  m_Name: Maymun
+  m_EditorClassIdentifier: 
+  artifactName: Maymun
+  description: "Bu maymun tam 300 bin dolar de\u011Ferine sat\u0131lm\u0131\u015Ft\u0131r.
+    Maymun diyip ge\xE7meyin yani te\u015Fekk\xFCrler."
+  ArtifactType: 0
+  artifactSprite: {fileID: 21300000, guid: da420301a8ac7b1438f2ad048bc17395, type: 3}

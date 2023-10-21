@@ -11,6 +11,7 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnInteractAction;
     public event EventHandler OnCameraChanged;
     public event EventHandler OnEnterPressed;
+    public event EventHandler OnBackPressed;
     //public event EventHandler OnAttack;
 
     private void Awake()
@@ -25,7 +26,13 @@ public class GameInput : MonoBehaviour
         inputActions.Player.Interact.performed += Interaction_performed;
         inputActions.Player.ChangeCam.performed += ChangeCam_performed;
         inputActions.Player.Enter.performed += Enter_performed;
+        inputActions.Player.Back.performed += Back_performed;
         //inputActions.Player.Fire.performed += Fire_performed;
+    }
+
+    private void Back_performed(InputAction.CallbackContext obj)
+    {
+        OnBackPressed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Enter_performed(InputAction.CallbackContext obj)

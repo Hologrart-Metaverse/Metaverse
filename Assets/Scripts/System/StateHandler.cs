@@ -3,7 +3,8 @@
 public enum State
 {
     None,
-    EditingNFTScreen,
+    ArtPlanet_StaticUI,
+    ArtPlanet_DynamicUI,
 }
 public class StateHandler : MonoBehaviour
 {
@@ -17,10 +18,17 @@ public class StateHandler : MonoBehaviour
     {
         Instance = this;
     }
-   
+    public bool IsMovable()
+    {
+        return currentState == State.None;
+    }
     public void SetState(State newState)
     {
         currentState = newState;
         StateChanged?.Invoke(this, currentState);
+    }
+    public State GetState()
+    {
+        return currentState;
     }
 }

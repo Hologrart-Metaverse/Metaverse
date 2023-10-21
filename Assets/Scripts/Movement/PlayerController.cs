@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject CinemachineCameraTarget;
     [SerializeField] internal float sprintSpeed, walkSpeed, smoothTime;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Transform itemExaminationPoint; 
     public float mouseSensitivity;
     private bool grounded;
     private Vector3 smoothMoveVelocity;
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float coyoteTimeMax = .15f;
     private bool checkCoyoteOnce = true;
 
-    private bool isStateSuitable = true;
+    private Ray ray;
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -100,7 +101,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
             AssignAnimationIDs();
-            StateHandler.Instance.StateChanged += StateHandler_StateChanged;
+            Spawner.Instance.PlayerSpawned();
         }
         else
         {
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        if (!PV.IsMine || !isStateSuitable)
+        if (!PV.IsMine || !StateHandler.Instance.IsMovable())
         {
             return;
         }
@@ -122,8 +123,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void FixedUpdate()
     {
-        if (!PV.IsMine || !isStateSuitable)
+        if (!PV.IsMine)
         {
+            return;
+        }
+        if (!StateHandler.Instance.IsMovable())
+        {
+            Move(false);
             return;
         }
         else
@@ -132,7 +138,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void LateUpdate()
     {
-        if (!PV.IsMine || !isStateSuitable)
+        if (!PV.IsMine || !StateHandler.Instance.IsMovable())
             return;
         CameraRotation();
     }
@@ -140,18 +146,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         OnPlayerDie?.Invoke(this, EventArgs.Empty);
     }
-    private void StateHandler_StateChanged(StateHandler sender, State state)
-    {
-        switch (state)
-        {
-            case State.None:
-                isStateSuitable = true;
-                break;
-            default:
-                isStateSuitable = false;
-                break;
-        }
-    }
+ 
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash("Speed");
@@ -174,9 +169,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     private void HandleInteractions()
     {
-        Ray ray = cam.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        ray = cam.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
-        float interactDistance = fpsCam.isActiveAndEnabled ? 5 : 10;
+        float interactDistance = fpsCam.isActiveAndEnabled ? 3.5f : 7;
         if (Physics.Raycast(ray, out RaycastHit raycastHit, interactDistance))
         {
             if (raycastHit.transform.TryGetComponent(out I_Interactable interactableObj))
@@ -233,13 +228,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     }
 
-    void Move()
+    void Move(bool isMovable = true)
     {
-        if (EventSystem.current.currentSelectedGameObject)
+        if (EventSystem.current.currentSelectedGameObject || !isMovable)
         {
             moveAmount = stopPl;
+            _animator.SetFloat("Speed", 0);
             return;
         }
+
         Vector2 movement = GameInput.Instance.GetMovementVectorNormalized();
 
 
@@ -395,6 +392,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         _animator.SetBool(_animIDGrounded, grounded);
+    }
+    public Transform GetItemExaminationPoint()
+    {
+        return itemExaminationPoint;
     }
     void Die()
     {

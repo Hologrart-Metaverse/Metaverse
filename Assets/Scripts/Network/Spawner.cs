@@ -21,11 +21,13 @@ public class Spawner : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(1f);
         CreateController(Utils.GetRandomPositionAtHangar());
     }
-
+    public void PlayerSpawned()
+    {
+        OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
+    }
     void CreateController(Vector3 spawnpoint)
     {
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "NetworkPlayer"), spawnpoint, Quaternion.identity, 0, new object[] { PV.ViewID });
-        OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
     public Vector3 GetRespawnPosition()
     {

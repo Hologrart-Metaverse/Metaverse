@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.actioncode.attributes": {
+      "version": "3.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "http://34.125.146.81:4873"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

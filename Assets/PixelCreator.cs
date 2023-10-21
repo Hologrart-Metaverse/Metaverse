@@ -7,10 +7,10 @@ public class PixelCreator : MonoBehaviour
     public Transform pixelPrefab;
     public Transform container;
     private Dictionary<int, Image> pixelDict = new Dictionary<int, Image>();
-    private NFTScreen nftScreen;
+    private JointNFT nftScreen;
     private void Awake()
     {
-        nftScreen = GetComponentInParent<NFTScreen>();
+        nftScreen = GetComponentInParent<JointNFT>();
     }
     void Start()
     {

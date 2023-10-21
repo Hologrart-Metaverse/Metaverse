@@ -98,6 +98,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""1068d588-9984-417d-b146-21653ec662ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -331,6 +340,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""ScrollPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""932efaba-a208-467c-b8d6-cf23ed0a56e9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -395,6 +415,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Enter = m_Player.FindAction("Enter", throwIfNotFound: true);
         m_Player_ScrollPress = m_Player.FindAction("ScrollPress", throwIfNotFound: true);
+        m_Player_Back = m_Player.FindAction("Back", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -464,6 +485,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Enter;
     private readonly InputAction m_Player_ScrollPress;
+    private readonly InputAction m_Player_Back;
     public struct PlayerActions
     {
         private @InputSystem m_Wrapper;
@@ -476,6 +498,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Enter => m_Wrapper.m_Player_Enter;
         public InputAction @ScrollPress => m_Wrapper.m_Player_ScrollPress;
+        public InputAction @Back => m_Wrapper.m_Player_Back;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -509,6 +532,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @ScrollPress.started += instance.OnScrollPress;
             @ScrollPress.performed += instance.OnScrollPress;
             @ScrollPress.canceled += instance.OnScrollPress;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -537,6 +563,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @ScrollPress.started -= instance.OnScrollPress;
             @ScrollPress.performed -= instance.OnScrollPress;
             @ScrollPress.canceled -= instance.OnScrollPress;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -600,5 +629,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
         void OnScrollPress(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }
