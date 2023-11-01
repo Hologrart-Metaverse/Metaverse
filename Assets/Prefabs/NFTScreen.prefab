@@ -815,8 +815,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ZoomSystem, Assembly-CSharp
+      - m_Target: {fileID: 8211062413738431274}
+        m_TargetAssemblyTypeName: JointNFT, Assembly-CSharp
         m_MethodName: ResetView
         m_Mode: 1
         m_Arguments:

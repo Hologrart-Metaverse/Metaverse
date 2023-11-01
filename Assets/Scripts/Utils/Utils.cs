@@ -7,9 +7,9 @@ public static class Utils
     {
         return new Vector3(Random.Range(-2, 2), -2, Random.Range(-15, -20));
     }
-    public static Vector3 GetRandomPositionAtCertainPoint(Vector3 point)
+    public static Vector3 GetRandomPositionAtCertainPoint(Vector3 point, float range = 2f)
     {
-        return new Vector3(Random.Range(point.x - 2, point.x + 2), point.y, Random.Range(point.z - 2, point.z + 2));
+        return new Vector3(Random.Range(point.x - range, point.x + range), point.y, Random.Range(point.z - range, point.z + range));
     }
     public static void SetMouseLockedState(bool locked)
     {

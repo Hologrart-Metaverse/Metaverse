@@ -39,7 +39,7 @@ public class ZoomSystem : MonoBehaviour
     }
     private void Start()
     {
-        detailCam = GlobalCameras.Instance.GetVirtualCamera(GlobalCameras.CameraType.Details);
+        detailCam = GlobalCameraManager.Instance.GetVirtualCamera(GlobalCameraManager.CameraType.Details);
         transposer = detailCam.GetCinemachineComponent<CinemachineFramingTransposer>();
 
         Spawner.Instance.OnPlayerSpawned += Spawner_OnPlayerSpawned;
@@ -180,7 +180,7 @@ public class ZoomSystem : MonoBehaviour
             }
             else if (currentZoomMode == ZoomMode.Dynamic)
             {
-                Vector3 cameraMovement = new Vector3(GameInput.Instance.GetMouseLook().y, GameInput.Instance.GetMouseLook().x, 0);
+                Vector3 cameraMovement = new Vector3(GameInput.Instance.GetMouseLook().y, GameInput.Instance.GetMouseLook().x, GameInput.Instance.GetMouseLook().y);
                 objectTransform.Rotate(cameraMovement);
             }
         }

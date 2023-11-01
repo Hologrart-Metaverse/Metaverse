@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec555e7506d73642aedb068b153e2ba, type: 3}
   m_Name: Art Planet
   m_EditorClassIdentifier: 
-  Area: 3
+  Area: 2
   teleportPosition: {x: 100.37, y: 1.66, z: -9.9}
   respawnPosition: {x: 100.37, y: 1.66, z: -9.9}

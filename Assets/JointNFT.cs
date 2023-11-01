@@ -24,7 +24,7 @@ public class JointNFT : MonoBehaviour, I_UIModeChanger
     }
     private void Start()
     {
-        screenCam = GlobalCameras.Instance.GetVirtualCamera(GlobalCameras.CameraType.Details);
+        screenCam = GlobalCameraManager.Instance.GetVirtualCamera(GlobalCameraManager.CameraType.Details);
     }
     public void ChangeMode(UIMode mode)
     {
@@ -96,5 +96,9 @@ public class JointNFT : MonoBehaviour, I_UIModeChanger
     public void OnClick_BackButton()
     {
         ChangeMode(UIMode.None);
+    }
+    public void ResetView()
+    {
+        ZoomSystem.Instance.ResetView();
     }
 }

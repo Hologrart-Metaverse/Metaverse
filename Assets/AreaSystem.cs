@@ -3,8 +3,7 @@ using UnityEngine;
 public enum Area
 {
     Hangar,
-    Culture_Planet,
-    Social_Planet,
+    Game_Planet,
     Art_Planet,
 }
 public class AreaSystem : MonoBehaviour

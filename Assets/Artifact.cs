@@ -14,7 +14,7 @@ public class Artifact : MonoBehaviour, I_UIModeChanger
     [SerializeField] private Transform artifactObject;
     private void Start()
     {
-        detailsCam = GlobalCameras.Instance.GetVirtualCamera(GlobalCameras.CameraType.Details);
+        detailsCam = GlobalCameraManager.Instance.GetVirtualCamera(GlobalCameraManager.CameraType.Details);
         GameInput.Instance.OnBackPressed += GameInput_OnBackPressed;
     }
     private void GameInput_OnBackPressed(object sender, System.EventArgs e)
