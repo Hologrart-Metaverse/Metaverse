@@ -38,6 +38,17 @@ MonoBehaviour:
   - DestroyRpc
   - RPC_InGameMessage
   - ChangePixelColorRPC
+  - StartOnlineGameRPC
+  - InitializeRPC
+  - Deneme
+  - EnterGame
+  - CreateGameAreaMasterClient
+  - EnterGameHost
+  - EnterGameClient
+  - SetRoomCustomPropertiesMasterClient
+  - EnterGameOffline
+  - FinishGameOnline
+  - FinishGameOnlineRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -9,7 +9,7 @@ public class GameSO : ScriptableObject
     public enum GameId
     {
         nftContest,
-
+        escapeFromMaze,
     }
     public enum GameType
     {
@@ -20,10 +20,7 @@ public class GameSO : ScriptableObject
     public GameId gameId;
     public GameType gameType;
     public int maxPlayer;
-
-    [ShowIf("gameType", GameType._2D)]
-    public Transform gameCanvas;
-
-    [ShowIf("gameType", GameType._3D)]
     public Transform gameArea;
+
+    public Vector3 gameAreaSpawnPoint;
 }

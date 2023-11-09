@@ -72,7 +72,7 @@ public class TeleportUI : MonoBehaviour
     }
     private void OnClickAreaBtn(Area area)
     {
-        TeleportSystem.Instance.Teleport(area);
+        TeleportSystem.Instance.TeleportArea(area);
         Hide();
     }
 

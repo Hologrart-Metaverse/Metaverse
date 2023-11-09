@@ -1,5 +1,4 @@
 using Photon.Pun;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.IO;
@@ -15,7 +14,8 @@ public class Spawner : MonoBehaviourPunCallbacks
     {
         Instance = this;
         PV = GetComponent<PhotonView>();
-        StartCoroutine(CreateAfterDelay());
+        if (PlayerController.Local == null)
+            StartCoroutine(CreateAfterDelay());
     }
     private IEnumerator CreateAfterDelay()
     {

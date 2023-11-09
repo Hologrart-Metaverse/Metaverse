@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject CinemachineCameraTarget;
     [SerializeField] internal float sprintSpeed, walkSpeed, smoothTime;
     [SerializeField] private Animator _animator;
-    [SerializeField] private Transform itemExaminationPoint; 
+    [SerializeField] private Transform itemExaminationPoint;
     public float mouseSensitivity;
     private bool grounded;
     private Vector3 smoothMoveVelocity;
@@ -87,17 +87,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private bool checkCoyoteOnce = true;
 
     private Ray ray;
+    private bool isFirstInitialize;
     void Awake()
     {
         PV = GetComponent<PhotonView>();
         if (PV.IsMine && Local == null)
+        {
             Local = this;
+            isFirstInitialize = true;
+            DontDestroyOnLoad(Local);
+        }
+        else
+            isFirstInitialize = false;
+
     }
 
     void Start()
     {
         if (PV.IsMine)
         {
+            if (!isFirstInitialize)
+                return;
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
             AssignAnimationIDs();
@@ -146,7 +156,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         OnPlayerDie?.Invoke(this, EventArgs.Empty);
     }
- 
+
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash("Speed");
@@ -353,10 +363,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Teleport(Spawner.Instance.GetRespawnPosition());
         }
     }
-    public void Teleport(Vector3 pos)
+    public void Teleport(Vector3 pos, Quaternion rot = default)
     {
+        if (rot == default)
+            rot = Quaternion.identity;
         Controller.enabled = false;
         transform.position = pos;
+        player.transform.rotation = rot;
+
         Controller.enabled = true;
     }
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

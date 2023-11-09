@@ -2788,7 +2788,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5696495033606959122}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a21ba40317a82f46ba38e29e6ea6dc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b556a8acc384e647ac7dcb5a5a5803f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   firstMenuContainer: {fileID: 5696495033430091212}
@@ -2799,6 +2799,7 @@ MonoBehaviour:
   multiplayerRoomListMenu: {fileID: 7110334649927068882}
   onePlayerEnterBtn: {fileID: 5696495033609024309}
   onePlayerBackBtn: {fileID: 8252297797131397172}
+  onePlayerStartGameBtn: {fileID: 2787176748671388915}
   multiplayerEnterBtn: {fileID: 5696495034271491522}
   multiplayerBackBtn: {fileID: 7201856505489135165}
   multiplayerCreateRoomBtn: {fileID: 2130814069762180205}
@@ -3370,10 +3371,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5696495034612205640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d69a822f725bc84fb19a7cde0f76976, type: 3}
+  m_Script: {fileID: 11500000, guid: 8aa3db48d13c6534a953d8224f5b1ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameSO: {fileID: 11400000, guid: f47af25f1f764324787836460e854475, type: 2}
+  gameSO: {fileID: 11400000, guid: b95a6583d13a99f48a8304646ab568e2, type: 2}
 --- !u!65 &5696495034612205637
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3457,7 +3458,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5823821238594792043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59ce0f161b11db547b444997acce1acf, type: 3}
+  m_Script: {fileID: 11500000, guid: dc83e190194f82543a5e3235cad34568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   roomNameTMP: {fileID: 3934133648998756970}

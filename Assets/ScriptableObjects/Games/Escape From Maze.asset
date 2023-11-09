@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e4b09eb43b03c40a3cf2edeccd951a, type: 3}
+  m_Name: Escape From Maze
+  m_EditorClassIdentifier: 
+  gameName: Escape From Maze
+  gameId: 1
+  gameType: 1
+  maxPlayer: 10
+  gameCanvas: {fileID: 0}
+  gameArea: {fileID: 4786645891725001670, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+  gameAreaSpawnPoint: {x: 0, y: 0, z: 200}

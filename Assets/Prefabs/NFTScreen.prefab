@@ -554,7 +554,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8211062412520958721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d94dcea1b1c42642baa40d75009371c, type: 3}
+  m_Script: {fileID: 11500000, guid: 02bb7b0115277c047b2c723d871fe014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pickedColorsContainer: {fileID: 8211062412371293366}
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8211062413738431277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb2a52beffa8b9047ad116e0b748e3bf, type: 3}
+  m_Script: {fileID: 11500000, guid: e837b2df14ffdf444a9798d3dc9e8133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   screenSurface: {fileID: 8211062414017700315}
@@ -1504,7 +1504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8211062413833691711}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ce8303c83f593a4dac8014341294e3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1caf7eb7b7ebff047ba5154885fcd94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8211062414017700314
@@ -1680,7 +1680,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8211062414158421122}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1edeb475dbf51664f910e4d735edc047, type: 3}
+  m_Script: {fileID: 11500000, guid: c1d69e333fbc64d40b0b78ca031dc51d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pixelPrefab: {fileID: 1671607293438088576, guid: 4b62b1b41c258d94aa38bb15ec6fcb2b, type: 3}

@@ -1,6 +1,4 @@
 using UnityEngine;
-
-
 public class TeleportSystem : MonoBehaviour
 {
     public static TeleportSystem Instance;
@@ -12,7 +10,7 @@ public class TeleportSystem : MonoBehaviour
     {
         AreaSystem.Instance.currentArea = Area.Hangar;
     }
-    public void Teleport(Area area)
+    public void TeleportArea(Area area)
     {
         if (!AreaSystem.Instance.IsAreaSuitable(area))
             return;
@@ -21,7 +19,10 @@ public class TeleportSystem : MonoBehaviour
         PlayerController.Local.Teleport(pos);
         AreaSystem.Instance.currentArea = area;
     }
-
+    public void TeleportPosition(Vector3 pos, Quaternion rot = default)
+    {
+        PlayerController.Local.Teleport(GetRandomPositionAtCertainPoint(pos), rot);
+    }
     private Vector3 GetRandomPositionAtCertainPoint(Vector3 point)
     {
         return Utils.GetRandomPositionAtCertainPoint(point);
