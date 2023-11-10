@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class Game_EscapeFromMaze : Game
@@ -8,30 +9,36 @@ public class Game_EscapeFromMaze : Game
     {
         PV = GetComponent<PhotonView>();
     }
-    public override void Play()
+    public override void GetReadyToPlay()
     {
         if (isOnline)
         {
             foreach (int playerId in players)
             {
-                var pl = PhotonHandler.Instance.GetPlayerByActorNumber(playerId);
-                PV.RPC(nameof(InitializeRPC), pl);
+                if (PhotonHandler.Instance.TryGetPlayerByActorNumber(playerId, out Player pl))
+                {
+                    PV.RPC(nameof(StartCountdown), pl);
+                }
             }
         }
         else
         {
-
+            StartCountdown();
         }
-
+    }
+    public override void Play()
+    {
+        GetComponentInChildren<Obstacle>().GetComponent<Collider>().enabled = false;
     }
 
-    public override void FinishGameOnline()
+    public override void EndGameOnline()
     {
         foreach (int playerId in players)
         {
-            var pl = PhotonHandler.Instance.GetPlayerByActorNumber(playerId);
-            if (pl != null)
+            if (PhotonHandler.Instance.TryGetPlayerByActorNumber(playerId, out Player pl))
+            {
                 PV.RPC(nameof(FinishGameOnlineRPC), pl);
+            }
         }
     }
     [PunRPC]
@@ -40,16 +47,41 @@ public class Game_EscapeFromMaze : Game
         GameCanvasUI.Instance.Hide();
         TeleportSystem.Instance.TeleportArea(Area.Game_Planet);
     }
-    public override void FinishGameOffline()
+    public override void EndGameOffline()
     {
         GameCanvasUI.Instance.Hide();
         TeleportSystem.Instance.TeleportArea(Area.Game_Planet);
     }
     [PunRPC]
-    private void InitializeRPC()
+    private void StartCountdown()
     {
-        Debug.Log("BU MESAJ HERKESDE VARSA TAMAMDIR...");
+        UI_EscapeFromMaze escapeFromMaze = gameUI as UI_EscapeFromMaze;
+        escapeFromMaze.StartCountdown();
+    }
+    public override void OnGameEnded()
+    {
+        GetComponentInChildren<Obstacle>().GetComponent<Collider>().enabled = true;
     }
 
-
+    public override void OnFinished()
+    {
+        if (isOnline)
+        {
+            foreach (int playerId in players)
+            {
+                if (PhotonHandler.Instance.TryGetPlayerByActorNumber(playerId, out Player pl))
+                {
+                    PV.RPC(nameof(OnFinishedRpc), pl, PhotonNetwork.LocalPlayer.NickName);
+                }
+            }
+        }
+        else
+            OnFinishedRpc(PhotonNetwork.LocalPlayer.NickName);
+    }
+    [PunRPC]
+    private void OnFinishedRpc(string winnerName)
+    {
+        isFinished = true;
+        gameUI.OnFinished(winnerName);
+    }
 }

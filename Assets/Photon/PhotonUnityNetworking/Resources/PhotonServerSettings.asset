@@ -49,6 +49,9 @@ MonoBehaviour:
   - EnterGameOffline
   - FinishGameOnline
   - FinishGameOnlineRPC
+  - StartCountdown
+  - Initialize
+  - OnFinishedRpc
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

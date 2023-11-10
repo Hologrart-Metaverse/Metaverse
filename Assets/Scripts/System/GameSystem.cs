@@ -65,20 +65,21 @@ public class GameSystem : MonoBehaviourPun
     private void EnterGameHost(int areaViewId)
     {
         GameAreasManager.Instance.AddOrFillGameArea(currentGameSO.gameId, areaViewId);
-        PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeHost(currentGameSO, currentRoomMemberIds);
         foreach (var memberId in currentRoomMemberIds)
         {
             if (memberId == PhotonNetwork.LocalPlayer.ActorNumber)
                 continue;
-            Player pl = PhotonHandler.Instance.GetPlayerByActorNumber(memberId);
-            if (pl != null)
-                PV.RPC(nameof(EnterGameClient), pl, currentGameSO.gameId, areaViewId, currentRoomMemberIds.ToArray());
+            if (PhotonHandler.Instance.TryGetPlayerByActorNumber(memberId, out Player pl))
+            {
+                PV.RPC(nameof(EnterGameClient), pl, currentGameSO.gameId, areaViewId, currentRoomMemberIds.ToArray(), PhotonNetwork.LocalPlayer.ActorNumber);
+            }
         }
+        PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeHost(currentGameSO, currentRoomMemberIds, PhotonNetwork.LocalPlayer.ActorNumber);
     }
     [PunRPC]
-    private void EnterGameClient(GameSO.GameId gameId, int areaViewId, int[] playerIds)
+    private void EnterGameClient(GameSO.GameId gameId, int areaViewId, int[] playerIds, int hostId)
     {
-        PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeClient(gameId, playerIds);
+        PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeClient(gameId, playerIds, hostId);
     }
     [PunRPC]
     private void EnterGameOffline(GameSO.GameId gameId, int areaViewId)
@@ -86,6 +87,4 @@ public class GameSystem : MonoBehaviourPun
         GameAreasManager.Instance.AddOrFillGameArea(gameId, areaViewId);
         PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeOffline(currentGameSO);
     }
-
-
 }

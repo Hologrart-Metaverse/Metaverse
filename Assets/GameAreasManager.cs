@@ -53,37 +53,28 @@ public class GameAreasManager : MonoBehaviour
     }
     public void AddOrFillGameArea(GameSO.GameId gameId, int viewId)
     {
-        bool isAdded = false;
         string json = (string)PhotonNetwork.CurrentRoom.CustomProperties["GameAreas"];
         GameAreas areas = JsonHelper<GameAreas>.Deserialize(json);
         var places = areas.gameAreas[gameId];
-        for (int i = 0; i < places.Count; i++)
-        {
-            var place = places.ElementAt(i);
-            if (place.Key == viewId)
-            {
-                isAdded = true;
-                places[viewId] = true;
-            }
-        }
-        if (!isAdded)
-        {
+        if(places.ContainsKey(viewId))
+            places[viewId] = true;
+        else
             places.Add(viewId, true);
-        }
         var gameAreasJson = JsonHelper<GameAreas>.Serialize(areas);
-        Debug.Log("son durum: " + gameAreasJson);
         PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "GameAreas", gameAreasJson } });
     }
     public void MakeAreaEmpty(GameSO.GameId gameId, int areaViewId)
     {
         string json = (string)PhotonNetwork.CurrentRoom.CustomProperties["GameAreas"];
-        Debug.Log("ilk durum: " + json);
         GameAreas areas = JsonHelper<GameAreas>.Deserialize(json);
         var places = areas.gameAreas[gameId];
-        places[areaViewId] = false;
-        var gameAreasJson = JsonHelper<GameAreas>.Serialize(areas);
-        Debug.Log("son durum: " + gameAreasJson);
-        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "GameAreas", gameAreasJson } });
+        if (places.ContainsKey(areaViewId))
+        {
+            places[areaViewId] = false;
+            var gameAreasJson = JsonHelper<GameAreas>.Serialize(areas);
+            Debug.Log("son durum: " + gameAreasJson);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "GameAreas", gameAreasJson } });
+        }
     }
     public int GetAreaCountByGameId(GameSO.GameId gameId)
     {

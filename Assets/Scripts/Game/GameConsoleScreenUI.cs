@@ -119,11 +119,13 @@ public class GameConsoleScreenUI : MonoBehaviour
         // Gerekli olan elementler: Odalarýn adý, min max oyuncu sayýsý
         foreach (var memberId in updatedRoom.roomMembersIds)
         {
-            Debug.Log("member id: " + memberId);
-            Transform roomMemberTransform = Instantiate(roomMemberPrefab, roomMembersContainer);
-            roomMemberTransform.gameObject.SetActive(true);
-            roomMemberTransform.GetComponent<TextMeshProUGUI>().text = PhotonHandler.Instance.GetPlayerByActorNumber(memberId).NickName;
-            roomMembers.Add(roomMemberTransform);
+            if (PhotonHandler.Instance.TryGetPlayerByActorNumber(memberId, out var player))
+            {
+                Transform roomMemberTransform = Instantiate(roomMemberPrefab, roomMembersContainer);
+                roomMemberTransform.gameObject.SetActive(true);
+                roomMemberTransform.GetComponent<TextMeshProUGUI>().text = player.NickName;
+                roomMembers.Add(roomMemberTransform);
+            }
         }
         if (updatedRoom.roomHostId == PhotonNetwork.LocalPlayer.ActorNumber)
         {
@@ -133,11 +135,11 @@ public class GameConsoleScreenUI : MonoBehaviour
     }
     private void OnClick_JoinRoom(GameRoom currentRoom)
     {
-        gameHost = PhotonHandler.Instance.GetPlayerByActorNumber(currentRoom.roomHostId);
-        if (gameHost == null)
+        if (!PhotonHandler.Instance.TryGetPlayerByActorNumber(currentRoom.roomHostId, out Player pl))
         {
             UpdateRoomList(); return;
         }
+
         HideAndShow(multiplayerRoomListMenu, multiplayerRoomMenu);
         multiplayerStartGameBtn.gameObject.SetActive(false);
         waitingHostToStartTMP.gameObject.SetActive(true);

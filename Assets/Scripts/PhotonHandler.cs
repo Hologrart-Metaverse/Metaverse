@@ -30,11 +30,26 @@ public class PhotonHandler : MonoBehaviourPunCallbacks
             players.Add(pl.ActorNumber, pl);
         }
     }
+    public bool TryGetPlayerByActorNumber(int actorNumber, out Player pl)
+    {
+        pl = default;
+        if (players.ContainsKey(actorNumber))
+        {
+            pl = players[actorNumber];
+            return true;
+        }
+        return false;
+    }
     public Player GetPlayerByActorNumber(int actorNumber)
     {
         if (players.ContainsKey(actorNumber))
+        {
             return players[actorNumber];
-        
+        }
         return null;
+    }
+    public bool IsHostAvailable(int hostId)
+    {
+        return GetPlayerByActorNumber(hostId) == null || hostId == PhotonNetwork.LocalPlayer.ActorNumber;
     }
 }

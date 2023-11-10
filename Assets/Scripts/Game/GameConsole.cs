@@ -88,8 +88,6 @@ public class GameConsole : MonoBehaviourPunCallbacks, I_Interactable
     }
     internal void DeleteRoom()
     {
-        didIJoinedRoom = false;
-        didICreateRoom = false;
         string roomListJson = (string)photonRoom.CustomProperties[gameSO.gameId.ToString()];
         GameRoomList gameRooms = JsonHelper<GameRoomList>.Deserialize(roomListJson);
         GameRoom room = gameRooms.FindRoomByHostId(joinedRoom.roomHostId);
@@ -100,8 +98,6 @@ public class GameConsole : MonoBehaviourPunCallbacks, I_Interactable
     }
     internal void LeaveRoom()
     {
-        didIJoinedRoom = false;
-        didICreateRoom = false;
         string roomListJson = (string)photonRoom.CustomProperties[gameSO.gameId.ToString()];
         GameRoomList gameRooms = JsonHelper<GameRoomList>.Deserialize(roomListJson);
         GameRoom room = gameRooms.FindRoomByHostId(joinedRoom.roomHostId);
@@ -125,13 +121,16 @@ public class GameConsole : MonoBehaviourPunCallbacks, I_Interactable
     {
         didIJoinedRoom = false;
         didICreateRoom = false;
-        if (joinedRoom.roomHostId == PhotonNetwork.LocalPlayer.ActorNumber)
+        if(joinedRoom != null)
         {
-            DeleteRoom();
-        }
-        else
-        {
-            LeaveRoom();
+            if (joinedRoom.roomHostId == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                DeleteRoom();
+            }
+            else
+            {
+                LeaveRoom();
+            }
         }
         GameSystem.Instance.InGame = false;
     }
