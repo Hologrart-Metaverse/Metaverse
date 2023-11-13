@@ -1,15 +1,21 @@
 using Photon.Pun;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class GameUI : MonoBehaviour
 {
+    public TextMeshProUGUI clockTMP;
+    public float maxTime;
+    public Countdown countdown;
+    public WinnerDisplay winnerDisplay;
     internal List<int> memberIds = new();
     internal int hostId;
     internal bool isOnline;
     internal bool isInitialized = false;
     internal PhotonView PV;
     internal Game game;
+    internal float currentTime;
     public void InitializeVariables(Game _game, bool _isOnline, List<int> _memberIds = default, int _hostId = default)
     {
         PV = GetComponent<PhotonView>();

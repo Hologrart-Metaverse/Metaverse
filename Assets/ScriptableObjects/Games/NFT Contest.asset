@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: NFT Contest
   m_EditorClassIdentifier: 
   gameName: NFT Contest
+  gameId: 0
   gameType: 0
   maxPlayer: 10
-  gameCanvas: {fileID: 0}
-  gameArea: {fileID: 0}
+  gameArea: {fileID: 4786645891725001670, guid: 8aafbec2d3411394ea3c58b5d1e3adb4, type: 3}
+  gameAreaSpawnPoint: {x: 0, y: 0, z: 300}

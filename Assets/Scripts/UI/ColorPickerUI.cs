@@ -7,9 +7,11 @@ public class ColorPickerUI : MonoBehaviour
     [SerializeField] private Transform pickedColorsContainer;
     [SerializeField] private Transform pickedColorPrefab;
     private List<Color> colorList = new List<Color>();
+    [SerializeField] private bool isTest;
     private void Start()
     {
-        nftScreen = GetComponentInParent<JointNFT>();
+        if (!isTest)
+            nftScreen = GetComponentInParent<JointNFT>();
     }
     public void OnColorChanged(Color color)
     {
@@ -17,13 +19,14 @@ public class ColorPickerUI : MonoBehaviour
     }
     public void CreatePickedColorPrefab(Color color)
     {
-        if(colorList.Contains(color)) { return; }
+        if (colorList.Contains(color)) { return; }
 
         Transform pickedColorTrnsfrm = Instantiate(pickedColorPrefab, pickedColorsContainer);
         pickedColorTrnsfrm.gameObject.SetActive(true);
         Image pickedColorImg = pickedColorTrnsfrm.GetComponent<Image>();
         pickedColorImg.color = color;
-        pickedColorTrnsfrm.GetComponent<Button>().onClick.AddListener(() => nftScreen.OnColorChanged(pickedColorImg.color));
+        if (!isTest)
+            pickedColorTrnsfrm.GetComponent<Button>().onClick.AddListener(() => nftScreen.OnColorChanged(pickedColorImg.color));
         colorList.Add(color);
     }
     public void OnClick_OK()

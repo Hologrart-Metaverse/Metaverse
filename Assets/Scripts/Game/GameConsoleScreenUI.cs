@@ -181,4 +181,8 @@ public class GameConsoleScreenUI : MonoBehaviour
         gameNameTMP.text = gameSO.gameName;
         multiplayerRoomInfoText.text = "Players: (Min:2, Max:" + gameSO.maxPlayer + ")";
     }
+    public void OnStartedToOfflineGame()
+    {
+        HideAndShow(onePlayerMenuContainer, firstMenuContainer);
+    }
 }

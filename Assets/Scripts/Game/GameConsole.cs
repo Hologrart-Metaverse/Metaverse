@@ -35,6 +35,7 @@ public class GameConsole : MonoBehaviourPunCallbacks, I_Interactable
     public void StartOfflineGame()
     {
         GameSystem.Instance.StartOfflineGame(gameSO);
+        consoleScreenUI.OnStartedToOfflineGame();
     }
     public void StartOnlineGame()
     {

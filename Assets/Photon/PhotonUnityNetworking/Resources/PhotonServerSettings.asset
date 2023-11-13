@@ -52,6 +52,7 @@ MonoBehaviour:
   - StartCountdown
   - Initialize
   - OnFinishedRpc
+  - SetPixels
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

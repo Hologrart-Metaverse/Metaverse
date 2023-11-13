@@ -6,24 +6,32 @@ using Photon.Pun;
 
 public class InGameMessagesUIHandler : MonoBehaviour
 {
+    public static InGameMessagesUIHandler Instance { get; private set; }
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private TextMeshProUGUI chatField;
+    [SerializeField] private Transform chatTransform;
     [SerializeField] private Button sendMsgButton;
     private bool isChatSelected = false;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         sendMsgButton.onClick.AddListener(() => SendMessage());
         gameObject.SetActive(false);
         Spawner.Instance.OnPlayerSpawned += Spawner_OnPlayerSpawned;
     }
-
+    public void ChangeChatActivity(bool isActive)
+    {
+        chatTransform.gameObject.SetActive(isActive);
+    }
     private void Spawner_OnPlayerSpawned(object sender, System.EventArgs e)
     {
         gameObject.SetActive(true);
         GameInput.Instance.OnEnterPressed += GameInput_OnEnterPressed;
     }
-
 
     private void OnDestroy()
     {
@@ -32,6 +40,9 @@ public class InGameMessagesUIHandler : MonoBehaviour
     }
     private void GameInput_OnEnterPressed(object sender, System.EventArgs e)
     {
+        if (!chatTransform.gameObject.activeSelf)
+            return;
+
         if (!isChatSelected)
         {
             if (Utils.IsUIScreenOpen)

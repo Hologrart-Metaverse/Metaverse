@@ -1,31 +1,8 @@
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine;
 
-public class Game_EscapeFromMaze : Game
+public class Game_NFTContest : Game
 {
-    public override void GetReadyToPlay()
-    {
-        if (isOnline)
-        {
-            foreach (int playerId in players)
-            {
-                if (PhotonHandler.Instance.TryGetPlayerByActorNumber(playerId, out Player pl))
-                {
-                    PV.RPC(nameof(StartCountdown), pl);
-                }
-            }
-        }
-        else
-        {
-            StartCountdown();
-        }
-    }
-    public override void Play()
-    {
-        GetComponentInChildren<Obstacle>().GetComponent<Collider>().enabled = false;
-    }
-
     public override void EndGameOnline()
     {
         if (isOnline)
@@ -50,17 +27,29 @@ public class Game_EscapeFromMaze : Game
         GameCanvasUI.Instance.Hide();
         TeleportSystem.Instance.TeleportArea(Area.Game_Planet);
     }
+    public override void GetReadyToPlay()
+    {
+        if (isOnline)
+        {
+            foreach (int playerId in players)
+            {
+                if (PhotonHandler.Instance.TryGetPlayerByActorNumber(playerId, out Player pl))
+                {
+                    PV.RPC(nameof(StartCountdown), pl);
+                }
+            }
+        }
+        else
+        {
+            StartCountdown();
+        }
+    }
     [PunRPC]
     private void StartCountdown()
     {
-        UI_EscapeFromMaze uiEscapeFromMaze = gameUI as UI_EscapeFromMaze;
-        uiEscapeFromMaze.StartCountdown();
+        UI_NFTContest uiNFTContest = gameUI as UI_NFTContest;
+        uiNFTContest.StartCountdown();
     }
-    public override void OnGameEnded()
-    {
-        GetComponentInChildren<Obstacle>().GetComponent<Collider>().enabled = true;
-    }
-
     public override void OnFinished()
     {
         if (isOnline)
@@ -81,5 +70,12 @@ public class Game_EscapeFromMaze : Game
     {
         isFinished = true;
         gameUI.OnFinished(winnerName);
+    }
+    public override void OnGameEnded()
+    {
+    }
+
+    public override void Play()
+    {
     }
 }

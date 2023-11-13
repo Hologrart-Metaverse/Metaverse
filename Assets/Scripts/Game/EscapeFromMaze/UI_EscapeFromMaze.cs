@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class UI_EscapeFromMaze : GameUI
 {
-    [SerializeField] private TextMeshProUGUI clockTMP;
-    [SerializeField] private float maxTime;
-    private float currentTime;
-    [SerializeField] private Countdown countdown;
-    [SerializeField] private WinnerDisplay winnerDisplay;
     public override void StartCountdown()
     {
         countdown.StartCountdown(this);
