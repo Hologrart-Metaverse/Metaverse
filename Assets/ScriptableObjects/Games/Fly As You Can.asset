@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e4b09eb43b03c40a3cf2edeccd951a, type: 3}
+  m_Name: Fly As You Can
+  m_EditorClassIdentifier: 
+  gameName: Fly As You Can
+  gameId: 2
+  gameType: 1
+  maxPlayer: 10
+  gameArea: {fileID: 2505431616630649217, guid: f914b1a3175ac1446a2d27f984769fa9, type: 3}
+  gameAreaSpawnPoint: {x: 0, y: 100, z: 2000}

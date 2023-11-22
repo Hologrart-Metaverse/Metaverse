@@ -61,7 +61,7 @@ public abstract class Game : MonoBehaviour
         GetReadyToPlay();
         isFinished = false;
     }
-    public void OnFinish()
+    public void Finish()
     {
         if (isFinished)
             return;
@@ -85,6 +85,7 @@ public abstract class Game : MonoBehaviour
             GameAreasManager.Instance.MakeAreaEmpty(gameId, GetComponent<PhotonView>().ViewID);
             EndGameOffline();
             OnGameEnded();
+            transform.GetChild(0).gameObject.SetActive(false);
         }
     }
     public abstract void GetReadyToPlay();

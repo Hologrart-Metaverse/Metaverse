@@ -53,6 +53,8 @@ MonoBehaviour:
   - Initialize
   - OnFinishedRpc
   - SetPixels
+  - CreateRewards
+  - DisableRewardVisualRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,6 +1,3 @@
-using ActionCode.Attributes;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu()]
@@ -10,6 +7,7 @@ public class GameSO : ScriptableObject
     {
         nftContest,
         escapeFromMaze,
+        flyAsYouCan,
     }
     public enum GameType
     {

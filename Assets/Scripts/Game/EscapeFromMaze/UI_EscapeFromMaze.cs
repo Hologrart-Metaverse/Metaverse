@@ -35,21 +35,6 @@ public class UI_EscapeFromMaze : GameUI
         clockTMP.text = maxTime.ToString();
         isInitialized = true;
     }
-    private void FixedUpdate()
-    {
-        if (isInitialized)
-        {
-            currentTime -= Time.fixedDeltaTime;
-            clockTMP.text = Mathf.FloorToInt(currentTime).ToString();
-
-            if (currentTime <= 0)
-            {
-                clockTMP.text = "0";
-                OnFinished("NO ONE :)");
-            }
-        }
-    }
-
     public override void ResetUI()
     {
         isInitialized = false;

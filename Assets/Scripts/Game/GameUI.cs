@@ -16,6 +16,7 @@ public abstract class GameUI : MonoBehaviour
     internal PhotonView PV;
     internal Game game;
     internal float currentTime;
+    private string second;
     public void InitializeVariables(Game _game, bool _isOnline, List<int> _memberIds = default, int _hostId = default)
     {
         PV = GetComponent<PhotonView>();
@@ -23,6 +24,26 @@ public abstract class GameUI : MonoBehaviour
         memberIds = _memberIds;
         hostId = _hostId;
         game = _game;
+    }
+    private void FixedUpdate()
+    {
+        if (isInitialized)
+        {
+            currentTime -= Time.fixedDeltaTime;
+            second = currentTime % 60 < 10 ? "0" + Mathf.FloorToInt(currentTime % 60) : Mathf.FloorToInt(currentTime % 60).ToString();
+            if (currentTime > 59)
+            {
+                clockTMP.text = Mathf.FloorToInt(currentTime / 60) + ":" + second;
+            }
+            else
+                clockTMP.text = "0:" + second;
+
+            if (currentTime <= 0)
+            {
+                clockTMP.text = "TIME IS OVER";
+                OnFinished("NO ONE :)");
+            }
+        }
     }
     public void OnGameEnded()
     {
@@ -33,8 +54,4 @@ public abstract class GameUI : MonoBehaviour
     public abstract void OnCountdownEnded();
     public abstract void OnFinished(string winner);
     public abstract void ResetUI();
-    public void Show()
-    {
-        isInitialized = true;
-    }
 }

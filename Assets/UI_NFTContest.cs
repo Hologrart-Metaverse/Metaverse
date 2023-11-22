@@ -39,20 +39,6 @@ public class UI_NFTContest : GameUI
             currentColor = color;
         }
     }
-    private void FixedUpdate()
-    {
-        if (isInitialized)
-        {
-            currentTime -= Time.fixedDeltaTime;
-            clockTMP.text = Mathf.FloorToInt(currentTime).ToString();
-
-            if (currentTime <= 0)
-            {
-                clockTMP.text = "0";
-                OnFinished("NO ONE :)");
-            }
-        }
-    }
     public override void OnCountdownEnded()
     {
         if (isOnline)
@@ -176,6 +162,6 @@ public class UI_NFTContest : GameUI
                 return;
             }
         }
-        game.OnFinish();
+        game.Finish();
     }
 }

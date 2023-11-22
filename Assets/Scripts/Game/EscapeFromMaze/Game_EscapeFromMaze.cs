@@ -30,20 +30,9 @@ public class Game_EscapeFromMaze : Game
     {
         if (isOnline)
         {
-            foreach (int playerId in players)
-            {
-                if (PhotonHandler.Instance.TryGetPlayerByActorNumber(playerId, out Player pl))
-                {
-                    PV.RPC(nameof(FinishGameOnlineRPC), pl);
-                }
-            }
+            GameCanvasUI.Instance.Hide();
+            TeleportSystem.Instance.TeleportArea(Area.Game_Planet);
         }
-    }
-    [PunRPC]
-    private void FinishGameOnlineRPC()
-    {
-        GameCanvasUI.Instance.Hide();
-        TeleportSystem.Instance.TeleportArea(Area.Game_Planet);
     }
     public override void EndGameOffline()
     {
@@ -59,6 +48,7 @@ public class Game_EscapeFromMaze : Game
     public override void OnGameEnded()
     {
         GetComponentInChildren<Obstacle>().GetComponent<Collider>().enabled = true;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public override void OnFinished()
