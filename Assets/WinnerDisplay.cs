@@ -20,6 +20,6 @@ public class WinnerDisplay : MonoBehaviour
         winnerTMP.transform.DOScale(Vector3.one, 1f);
         yield return new WaitForSeconds(2.5f);
         winnerTMP.enabled = false;
-        gameUI.OnGameEnded();
+        gameUI.OnWinnerShowed();
     }
 }

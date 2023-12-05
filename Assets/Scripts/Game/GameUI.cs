@@ -5,10 +5,10 @@ using UnityEngine;
 
 public abstract class GameUI : MonoBehaviour
 {
-    public TextMeshProUGUI clockTMP;
+    internal TextMeshProUGUI clockTMP;
     public float maxTime;
-    public Countdown countdown;
-    public WinnerDisplay winnerDisplay;
+    internal Countdown countdown;
+    internal WinnerDisplay winnerDisplay;
     internal List<int> memberIds = new();
     internal int hostId;
     internal bool isOnline;
@@ -17,6 +17,12 @@ public abstract class GameUI : MonoBehaviour
     internal Game game;
     internal float currentTime;
     private string second;
+    private void Start()
+    {
+        winnerDisplay = GetComponentInChildren<WinnerDisplay>(true);
+        countdown = GetComponentInChildren<Countdown>(true);
+        clockTMP = GetComponentInChildren<GameClock>(true).GetComponent<TextMeshProUGUI>();
+    }
     public void InitializeVariables(Game _game, bool _isOnline, List<int> _memberIds = default, int _hostId = default)
     {
         PV = GetComponent<PhotonView>();
@@ -45,7 +51,7 @@ public abstract class GameUI : MonoBehaviour
             }
         }
     }
-    public void OnGameEnded()
+    public void OnWinnerShowed()
     {
         game.EndGame();
         ResetUI();

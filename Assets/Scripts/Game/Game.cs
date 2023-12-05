@@ -78,20 +78,20 @@ public abstract class Game : MonoBehaviour
                 GameAreasManager.Instance.MakeAreaEmpty(gameId, GetComponent<PhotonView>().ViewID);
             }
             EndGameOnline();
-            OnGameEnded();
+            OnLeavingFromGame();
         }
         else
         {
             GameAreasManager.Instance.MakeAreaEmpty(gameId, GetComponent<PhotonView>().ViewID);
             EndGameOffline();
-            OnGameEnded();
+            OnLeavingFromGame();
             transform.GetChild(0).gameObject.SetActive(false);
         }
     }
     public abstract void GetReadyToPlay();
     public abstract void Play();
     public abstract void OnFinished();
-    public abstract void OnGameEnded();
+    public abstract void OnLeavingFromGame();
     public abstract void EndGameOnline();
     public abstract void EndGameOffline();
 }

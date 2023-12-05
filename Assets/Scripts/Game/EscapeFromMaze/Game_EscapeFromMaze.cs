@@ -45,7 +45,7 @@ public class Game_EscapeFromMaze : Game
         UI_EscapeFromMaze uiEscapeFromMaze = gameUI as UI_EscapeFromMaze;
         uiEscapeFromMaze.StartCountdown();
     }
-    public override void OnGameEnded()
+    public override void OnLeavingFromGame()
     {
         GetComponentInChildren<Obstacle>().GetComponent<Collider>().enabled = true;
         transform.GetChild(0).gameObject.SetActive(false);

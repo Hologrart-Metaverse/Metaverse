@@ -60,7 +60,7 @@ public class Game_NFTContest : Game
         isFinished = true;
         gameUI.OnFinished(winnerName);
     }
-    public override void OnGameEnded()
+    public override void OnLeavingFromGame()
     {
         transform.GetChild(0).gameObject.SetActive(false);
     }

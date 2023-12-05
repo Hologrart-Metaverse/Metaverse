@@ -18665,22 +18665,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2054256762438230101, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2281683697761591301, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
       propertyPath: m_Name
       value: GameArea_Maze
       objectReference: {fileID: 0}
-    - target: {fileID: 2281683697761591301, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4256096237661996167, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.19
-      objectReference: {fileID: 0}
+    - target: {fileID: 2678511789148525673, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad3706253db3aba469e139c5b32eb8fe, type: 2}
+    - target: {fileID: 4078575948769599826, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad3706253db3aba469e139c5b32eb8fe, type: 2}
     - target: {fileID: 4786645891725001670, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -18729,6 +18725,18 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6875948234621883375, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad3706253db3aba469e139c5b32eb8fe, type: 2}
+    - target: {fileID: 7259455251750335247, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad3706253db3aba469e139c5b32eb8fe, type: 2}
+    - target: {fileID: 7298675983103398791, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad3706253db3aba469e139c5b32eb8fe, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
 --- !u!1 &5851144069683787858

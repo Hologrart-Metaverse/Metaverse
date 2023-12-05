@@ -23,7 +23,6 @@ public class GameCanvasUI : MonoBehaviour
         {
             if (gameUI.gameId == gameId)
             {
-                Debug.Log(gameUI.gameUITransform.name + " dönülüyoorr");
                 lastGameUITransform = gameUI.gameUITransform;
                 lastGameUITransform.GetChild(0).gameObject.SetActive(true);
                 return lastGameUITransform.GetComponent<GameUI>();

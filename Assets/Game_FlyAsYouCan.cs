@@ -71,7 +71,7 @@ public class Game_FlyAsYouCan : Game
         isFinished = true;
         gameUI.OnFinished(winnerName);
     }
-    public override void OnGameEnded()
+    public override void OnLeavingFromGame()
     {
         Utils.SetMouseLockedState(true);
         transform.GetChild(0).gameObject.SetActive(false);
