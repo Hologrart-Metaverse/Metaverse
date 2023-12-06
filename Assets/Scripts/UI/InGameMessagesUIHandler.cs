@@ -10,7 +10,7 @@ public class InGameMessagesUIHandler : MonoBehaviour
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private TextMeshProUGUI chatField;
     [SerializeField] private Transform chatTransform;
-    [SerializeField] private Button sendMsgButton;
+    //[SerializeField] private Button sendMsgButton;
     private bool isChatSelected = false;
     // Start is called before the first frame update
     private void Awake()
@@ -19,7 +19,7 @@ public class InGameMessagesUIHandler : MonoBehaviour
     }
     void Start()
     {
-        sendMsgButton.onClick.AddListener(() => SendMessage());
+        //sendMsgButton.onClick.AddListener(() => SendMessage());
         gameObject.SetActive(false);
         Spawner.Instance.OnPlayerSpawned += Spawner_OnPlayerSpawned;
     }
@@ -49,7 +49,6 @@ public class InGameMessagesUIHandler : MonoBehaviour
                 return;
 
             inputField.text = "";
-            Utils.SetMouseLockedState(false);
             inputField.Select();
             isChatSelected = true;
         }
@@ -61,7 +60,6 @@ public class InGameMessagesUIHandler : MonoBehaviour
     }
     private void SendMessage()
     {
-        Utils.SetMouseLockedState(true);
         isChatSelected = false;
         EventSystem.current.SetSelectedGameObject(null);
         string message = inputField.text;

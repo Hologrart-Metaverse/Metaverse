@@ -1,5 +1,8 @@
+using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
+[Serializable]
 [CreateAssetMenu()]
 public class GameSO : ScriptableObject
 {
@@ -18,7 +21,8 @@ public class GameSO : ScriptableObject
     public GameId gameId;
     public GameType gameType;
     public int maxPlayer;
+    [JsonIgnore]
     public Transform gameArea;
-
+    public bool isChatVisibleOnPlay;
     public Vector3 gameAreaSpawnPoint;
 }

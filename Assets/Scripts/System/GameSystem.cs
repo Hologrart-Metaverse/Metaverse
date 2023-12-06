@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -69,17 +70,25 @@ public class GameSystem : MonoBehaviourPun
         {
             if (memberId == PhotonNetwork.LocalPlayer.ActorNumber)
                 continue;
+
+            string currentGameSoJson = JsonHelper<GameSO>.Serialize(currentGameSO, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
             if (PhotonHandler.Instance.TryGetPlayerByActorNumber(memberId, out Player pl))
             {
-                PV.RPC(nameof(EnterGameClient), pl, currentGameSO.gameId, areaViewId, currentRoomMemberIds.ToArray(), PhotonNetwork.LocalPlayer.ActorNumber);
+                
+                PV.RPC(nameof(EnterGameClient), pl, currentGameSoJson, areaViewId, currentRoomMemberIds.ToArray(), PhotonNetwork.LocalPlayer.ActorNumber);
             }
         }
         PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeHost(currentGameSO, currentRoomMemberIds, PhotonNetwork.LocalPlayer.ActorNumber);
     }
     [PunRPC]
-    private void EnterGameClient(GameSO.GameId gameId, int areaViewId, int[] playerIds, int hostId)
+    private void EnterGameClient(string gameSoJSON, int areaViewId, int[] playerIds, int hostId)
     {
-        PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeClient(gameId, playerIds, hostId);
+        GameSO gameSO = JsonHelper<GameSO>.Deserialize(gameSoJSON);
+        PhotonNetwork.GetPhotonView(areaViewId).GetComponent<Game>().InitializeClient(gameSO, playerIds, hostId);
     }
     [PunRPC]
     private void EnterGameOffline(GameSO.GameId gameId, int areaViewId)

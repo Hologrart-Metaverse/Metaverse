@@ -16,6 +16,6 @@ MonoBehaviour:
   gameId: 1
   gameType: 1
   maxPlayer: 10
-  gameCanvas: {fileID: 0}
   gameArea: {fileID: 4786645891725001670, guid: 786f3780d222ae54eb371e5012c0a7ea, type: 3}
+  isChatVisibleOnPlay: 1
   gameAreaSpawnPoint: {x: 0, y: 0, z: 200}

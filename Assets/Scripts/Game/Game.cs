@@ -19,7 +19,7 @@ public abstract class Game : MonoBehaviour
     }
     public void InitializeHost(GameSO gameSO, List<int> playerIds, int _hostId)
     {
-        InGameMessagesUIHandler.Instance.ChangeChatActivity(false);
+        InGameMessagesUIHandler.Instance.ChangeChatActivity(gameSO.isChatVisibleOnPlay);
         transform.GetChild(0).gameObject.SetActive(true);
         players = playerIds;
         hostId = _hostId;
@@ -33,13 +33,14 @@ public abstract class Game : MonoBehaviour
         GetReadyToPlay();
         isFinished = false;
     }
-    public void InitializeClient(GameSO.GameId _gameId, int[] playerIds, int _hostId)
+    public void InitializeClient(GameSO gameSO, int[] playerIds, int _hostId)
     {
-        InGameMessagesUIHandler.Instance.ChangeChatActivity(false);
+        InGameMessagesUIHandler.Instance.ChangeChatActivity(gameSO.isChatVisibleOnPlay);
+
         transform.GetChild(0).gameObject.SetActive(true);
         players = playerIds.ToList();
         hostId = _hostId;
-        gameId = _gameId;
+        gameId = gameSO.gameId;
         isOnline = true;
         Transform playerSpawnPoint = GetComponentInChildren<GameSpawnPoint>().transform;
         TeleportSystem.Instance.TeleportPosition(playerSpawnPoint.position, playerSpawnPoint.rotation);
@@ -49,7 +50,8 @@ public abstract class Game : MonoBehaviour
     }
     public void InitializeOffline(GameSO gameSO)
     {
-        InGameMessagesUIHandler.Instance.ChangeChatActivity(false);
+        InGameMessagesUIHandler.Instance.ChangeChatActivity(gameSO.isChatVisibleOnPlay);
+
         transform.GetChild(0).gameObject.SetActive(true);
         this.gameSO = gameSO;
         gameId = gameSO.gameId;
