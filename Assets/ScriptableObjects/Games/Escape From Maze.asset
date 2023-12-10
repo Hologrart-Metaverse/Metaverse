@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15e4b09eb43b03c40a3cf2edeccd951a, type: 3}
   m_Name: Escape From Maze
   m_EditorClassIdentifier: 
-  gameName: Escape From Maze
+  gameName: Galactic Grid
   gameId: 1
   gameType: 1
   maxPlayer: 10

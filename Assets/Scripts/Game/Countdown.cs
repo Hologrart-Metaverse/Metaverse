@@ -10,6 +10,7 @@ public class Countdown : MonoBehaviour
     [SerializeField] private Transform backgroundTransform;
     [SerializeField] private Transform topCountdownTransform;
     [SerializeField] private Transform UI;
+    [SerializeField] private Transform gameLogo;
     private int currentValue;
     private GameUI gameUI;
     private float currentBackgroundScale;
@@ -20,13 +21,16 @@ public class Countdown : MonoBehaviour
         backgroundTransform.localScale = Utils.BuildVectorWithSameFloat(currentBackgroundScale);
         backgroundTransform.localPosition = Vector3.zero;
         gameUI = _gameUI;
-        currentValue = startValue;
-        countdownTMP.enabled = true;
-        countdownTMP.text = currentValue.ToString();
+        gameLogo.gameObject.SetActive(true);
         StartCoroutine(CountdownNumerator());
     }
     private IEnumerator CountdownNumerator()
     {
+        yield return new WaitForSecondsRealtime(2f);
+        gameLogo.gameObject.SetActive(false);
+        currentValue = startValue;
+        countdownTMP.enabled = true;
+        countdownTMP.text = currentValue.ToString();
         while (currentValue > 0)
         {
             countdownTMP.transform.DOLocalRotate(new Vector3(0, 0, 360), .3f, RotateMode.FastBeyond360).SetRelative(true).SetEase(Ease.Linear);
