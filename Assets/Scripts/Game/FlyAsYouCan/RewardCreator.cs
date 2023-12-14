@@ -16,6 +16,8 @@ public class RewardCreator : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
         game = GetComponentInParent<Game>();
+        PoolHandler.Instance.Create(bubbleSplashVFX.transform, PoolType.BubbleSplash);
+        PoolHandler.Instance.Create(rewardPrefab, PoolType.FlyAsYouCanRewardPrefab, default, 350);
     }
     public void Produce()
     {
@@ -55,8 +57,6 @@ public class RewardCreator : MonoBehaviour
     [PunRPC]
     private void CreateRewards(float[] xVals, float[] yVals, float[] zVals)
     {
-        PoolHandler.Instance.Create(bubbleSplashVFX.transform, PoolType.BubbleSplash);
-        PoolHandler.Instance.Create(rewardPrefab, PoolType.FlyAsYouCanRewardPrefab, default, 350);
         if (rewards.Count > 0)
         {
             foreach (var reward in rewards)

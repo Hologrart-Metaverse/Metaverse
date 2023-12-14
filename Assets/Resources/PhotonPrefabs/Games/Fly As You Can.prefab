@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: 2505431614787170433}
   - component: {fileID: 2505431614787170438}
   - component: {fileID: 261924846}
+  - component: {fileID: 4018642891648953912}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -249,7 +250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3661639628750336703, guid: 7e0223e1d3e1733499accfa5ebffb67e, type: 3}
+  - {fileID: 2100000, guid: 3c18aee36a09107409cb1873538d3e86, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -283,6 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ae1cae72b675e4db02a8a3e981ba7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  splashEffect: {fileID: 7569160303438203810, guid: 45fe6b109877d994ba4b746b60ff55a0, type: 3}
 --- !u!65 &261924846
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -290,12 +292,25 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2505431614787170444}
-  m_Material: {fileID: 13400000, guid: 25f4048eb0e85254cbedacd5e679d3af, type: 2}
+  m_Material: {fileID: 13400000, guid: 14619aef9cc13eb43bcff197c00abf19, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 10, y: 30, z: 10}
-  m_Center: {x: 0, y: -15, z: 0}
+  m_Center: {x: 0, y: -25, z: 0}
+--- !u!65 &4018642891648953912
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505431614787170444}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.1, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2505431614997497859
 GameObject:
   m_ObjectHideFlags: 0

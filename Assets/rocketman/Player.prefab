@@ -108,6 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballTransform: {fileID: 871588144799770727}
+  followSmoothness: 3
+  rotSmoothness: 3
 --- !u!1 &871588144799770725
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,16 +162,16 @@ MonoBehaviour:
   pointCounter: {fileID: 0}
   StickTopTransform: {fileID: 871588144333563092}
   followStickDelayTimer: 30
-  netForce: {x: 0, y: 14, z: 18}
+  netForce: {x: 0, y: 15, z: 18}
   bendingForceMultiplier: 10
   ballGravityScale: 10
   wingedGravityScale: 1
-  rotationSensitivity: 8
-  velocitySensitivity: 2
-  rotateYMultiplier: 0.15
-  maxRotation: 45
+  rotationSensitivity: 3
+  velocitySensitivity: 3
+  rotateYMultiplier: 0.4
+  maxRotation: 55
   moveSpeed: 20
-  rotationSpeedDivider: 20
+  rotationSpeedDivider: 30
 --- !u!54 &871588144799770720
 Rigidbody:
   m_ObjectHideFlags: 0

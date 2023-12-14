@@ -6,6 +6,7 @@ using UnityEngine.Pool;
 public enum PoolType
 {
     BubbleSplash,
+    WaterSplash,
     FlyAsYouCanRewardPrefab,
 }
 public class PoolHandler : MonoBehaviour
@@ -46,6 +47,9 @@ public class PoolHandler : MonoBehaviour
     }
     public Transform Get(PoolType poolType)
     {
+        if (!_pools.ContainsKey(poolType))
+            return null;
+
         return _pools[poolType].Get();
     }
     public void Release(Transform prefab, PoolType poolType, float delay = 0f)

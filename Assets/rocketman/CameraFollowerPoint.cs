@@ -7,6 +7,8 @@ public class CameraFollowerPoint : MonoBehaviour
     private Quaternion lockedRotation; 
     private bool isGameOver;
     BirdOwnerAssigner ownerAssigner;
+    [SerializeField] private float followSmoothness = 4f;
+    [SerializeField] private float rotSmoothness = 4f;
     private void Awake()
     {
         ownerAssigner = GetComponentInParent<BirdOwnerAssigner>();
@@ -17,7 +19,7 @@ public class CameraFollowerPoint : MonoBehaviour
             return;
         // Update the camera's position based on the ball's position, unless the game is over
         Vector3 pos = isGameOver ? lockedPosition : ballTransform.position;
-        transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 8f);
+        transform.position = Vector3.Lerp(transform.position, pos, Time.fixedDeltaTime * followSmoothness);
     }
 
     private void LateUpdate()
@@ -28,7 +30,7 @@ public class CameraFollowerPoint : MonoBehaviour
         Quaternion rotation = !isGameOver ? Quaternion.Euler(transform.rotation.eulerAngles.x, ballTransform.rotation.eulerAngles.y, 0f) : lockedRotation;
 
         // Smoothly interpolate the camera's rotation towards the calculated rotation
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 3f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * rotSmoothness);
     }
 
     private void Start()
