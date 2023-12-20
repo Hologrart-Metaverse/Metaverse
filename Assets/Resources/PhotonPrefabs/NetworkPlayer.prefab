@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2774688133194937785}
   - component: {fileID: 6623177962464550923}
   - component: {fileID: 5659909484202710077}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CM tps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 2462870700314609106}
   - component: {fileID: 2399397602053262791}
   - component: {fileID: 3297683308730351469}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 9146874101610844128}
   - component: {fileID: 3016435595419754813}
   - component: {fileID: 1148733229783848263}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 8283616403820910280}
   - component: {fileID: 7975191362799788582}
   - component: {fileID: 1591106697601505695}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: NetworkPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 196851268090579690}
   - component: {fileID: 1200299511023571273}
   - component: {fileID: 1097359905396395978}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CM fps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -866,7 +866,7 @@ GameObject:
   - component: {fileID: 7403190711715780158}
   - component: {fileID: 1917573976516656386}
   - component: {fileID: 6091669968019027422}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -933,7 +933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1284795603765734052}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: ItemExaminationPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

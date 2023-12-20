@@ -10,13 +10,13 @@ public class TeleportSystem : MonoBehaviour
     {
         AreaSystem.Instance.currentArea = Area.Hangar;
     }
-    public void TeleportArea(Area area)
+    public void TeleportArea(Area area, bool playTeleportEffect = false)
     {
         if (!AreaSystem.Instance.IsAreaSuitable(area))
             return;
 
         Vector3 pos = GetRandomPositionAtCertainPoint(AreaSystem.Instance.GetArea(area).teleportPosition);
-        PlayerController.Local.Teleport(pos);
+        PlayerController.Local.Teleport(pos, default, playTeleportEffect);
         AreaSystem.Instance.currentArea = area;
     }
     public void TeleportPosition(Vector3 pos, Quaternion rot = default)

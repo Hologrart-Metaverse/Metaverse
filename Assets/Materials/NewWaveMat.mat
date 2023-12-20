@@ -102,11 +102,11 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _GeneralSpeed: 0.05
+    - _GeneralSpeed: 0.04
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Height: 0.55
+    - _Height: 0.54
     - _HorizontalSpeed: 1
     - _Metallic: 0
     - _OcclusionStrength: 1

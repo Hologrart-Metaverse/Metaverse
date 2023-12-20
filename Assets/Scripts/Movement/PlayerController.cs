@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private Ray ray;
     private bool isFirstInitialize;
+    private Vector3 teleportPos;
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -112,6 +113,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             OnPlayerSpawned?.Invoke(this, EventArgs.Empty);
             AssignAnimationIDs();
             Spawner.Instance.PlayerSpawned();
+            ShaderSystem.Instance.callback = ShaderSystemCallback;
         }
         else
         {
@@ -120,6 +122,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Destroy(tpsCam.gameObject);
         }
     }
+
+
+
     private void Update()
     {
         if (!PV.IsMine || !StateHandler.Instance.IsMovable())
@@ -363,15 +368,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Teleport(Spawner.Instance.GetRespawnPosition());
         }
     }
-    public void Teleport(Vector3 pos, Quaternion rot = default)
+    public void Teleport(Vector3 pos, Quaternion rot = default, bool playTeleportEffect = false)
     {
         if (rot == default)
             rot = Quaternion.identity;
         Controller.enabled = false;
-        transform.position = pos;
-        player.transform.rotation = rot;
+        if (!playTeleportEffect)
+        {
+            transform.position = pos;
+            Controller.enabled = true;
+            return;
+        }
+        ShaderSystem.Instance.ChangeMaterialsFloatProperty(transform, "dissolveAmount", 1f, ShaderSystemCallback);
+        PV.RPC(nameof(PlayShaderEffectRPC), RpcTarget.Others, "dissolveAmount", 1f);
+        teleportPos = pos;
 
-        Controller.enabled = true;
     }
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
@@ -413,7 +424,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     void Die()
     {
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "alive", false } });
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable { { "alive", false } });
     }
     public AudioSource GetAudioSource()
     {
@@ -436,5 +447,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
         _animator.SetBool("Jump", false);
         _verticalVelocity = 0f;
     }
+    private void ShaderSystemCallback()
+    {
+        transform.position = teleportPos;
+        Controller.enabled = true;
+        PV.RPC(nameof(PlayShaderEffectRPC), RpcTarget.All, "dissolveAmount", -1f);
+        //ShaderSystem.Instance.ChangeMaterialsFloatProperty(transform, "dissolveAmount", -1f);
+    }
+    #region RPC
 
+    [PunRPC]
+    private void PlayShaderEffectRPC(string effectName, float effectValue)
+    {
+        ShaderSystem.Instance.ChangeMaterialsFloatProperty(transform, effectName, effectValue);
+    }
+    #endregion
 }

@@ -33,7 +33,7 @@ public class RewardCreator : MonoBehaviour
             if (randomNumber > 1)
                 continue;
             Vector3 temp = transform.GetChild(0).GetChild(i).position;
-            temp.y += Random.Range(18f, 22f);
+            temp.y += Random.Range(8f, 12f);
             rewardPos = temp;
             xValues[i] = temp.x;
             yValues[i] = temp.y;
@@ -68,7 +68,7 @@ public class RewardCreator : MonoBehaviour
         rewards.Clear();
         for (int i = 0; i < xVals.Length; i++)
         {
-            if (xVals[i] != 0)
+            if (xVals[i] != 0 && yVals[i] != 0)
             {
                 Transform reward = PoolHandler.Instance.Get(PoolType.FlyAsYouCanRewardPrefab);
                 reward.SetParent(rewardsHolder);
