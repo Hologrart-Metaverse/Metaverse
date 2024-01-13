@@ -46,7 +46,7 @@ public abstract class GameUI : MonoBehaviour
 
             if (currentTime <= 0)
             {
-                clockTMP.text = "TIME IS OVER";
+                clockTMP.text = "0:00";
                 OnFinished("NO ONE :)");
             }
         }

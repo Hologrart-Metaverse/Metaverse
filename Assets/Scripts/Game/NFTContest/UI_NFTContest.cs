@@ -112,7 +112,7 @@ public class UI_NFTContest : GameUI
         PixelArgs targetPixelArgs = JsonHelper<PixelArgs>.Deserialize(pixelArgs.drawingArgsJson);
         float widthAndHeight = Mathf.Sqrt(targetPixelArgs.pixels.Count);
         pixelContainer.GetComponent<GridLayoutGroup>().cellSize = new Vector2(1000 / widthAndHeight, 1000 / widthAndHeight);
-        Debug.Log("target pixel count: " + targetPixelArgs.pixels.Count);
+        //Debug.Log("target pixel count: " + targetPixelArgs.pixels.Count);
         currentPixelArgs.pixels = new();
         this.targetPixelArgs = targetPixelArgs;
         for (int i = 0; i < targetPixelArgs.pixels.Count; i++)
@@ -122,7 +122,6 @@ public class UI_NFTContest : GameUI
             string pixelColorHTML = pixel.Value;
             if (!availableColors.Contains(pixelColorHTML))
             {
-                Debug.Log(pixelColorHTML);
                 Button availableColorBtn = Instantiate(availableColorPrefab, availableColorsContainer).GetComponent<Button>();
                 availableColorBtn.gameObject.SetActive(true);
                 Image availableColor = availableColorBtn.GetComponent<Image>();

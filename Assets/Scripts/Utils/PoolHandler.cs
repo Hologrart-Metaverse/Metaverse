@@ -7,6 +7,7 @@ public enum PoolType
 {
     BubbleSplash,
     WaterSplash,
+    ExplosionEffect,
     FlyAsYouCanRewardPrefab,
 }
 public class PoolHandler : MonoBehaviour

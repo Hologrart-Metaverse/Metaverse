@@ -89,6 +89,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private Ray ray;
     private bool isFirstInitialize;
     private Vector3 teleportPos;
+    internal bool isTeleporting;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -127,7 +129,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (!PV.IsMine || !StateHandler.Instance.IsMovable())
+        if (!PV.IsMine || !StateHandler.Instance.IsMovable() || !Controller.enabled)
         {
             return;
         }
@@ -225,7 +227,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
             facedAlready = false;
         }
-
     }
 
     private void CamCheck()
@@ -245,7 +246,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Move(bool isMovable = true)
     {
-        if (EventSystem.current.currentSelectedGameObject || !isMovable)
+        if (EventSystem.current.currentSelectedGameObject || !isMovable || !Controller.enabled)
         {
             moveAmount = stopPl;
             _animator.SetFloat("Speed", 0);
@@ -370,6 +371,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     public void Teleport(Vector3 pos, Quaternion rot = default, bool playTeleportEffect = false)
     {
+        if (isTeleporting) return;
+
+        isTeleporting = true;
         if (rot == default)
             rot = Quaternion.identity;
         Controller.enabled = false;
@@ -377,6 +381,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             transform.position = pos;
             Controller.enabled = true;
+            isTeleporting = false;
             return;
         }
         ShaderSystem.Instance.ChangeMaterialsFloatProperty(transform, "dissolveAmount", 1f, ShaderSystemCallback);
@@ -453,6 +458,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Controller.enabled = true;
         PV.RPC(nameof(PlayShaderEffectRPC), RpcTarget.All, "dissolveAmount", -1f);
         //ShaderSystem.Instance.ChangeMaterialsFloatProperty(transform, "dissolveAmount", -1f);
+        isTeleporting = false;
     }
     #region RPC
 
